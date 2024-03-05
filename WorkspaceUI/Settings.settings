@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WorkspaceUI" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="workspaceOneBtn" Type="System.String" Scope="User">
+      <Value Profile="(Default)">W1</Value>
+    </Setting>
+    <Setting Name="workspaceTwoBtn" Type="System.String" Scope="User">
+      <Value Profile="(Default)">W2</Value>
+    </Setting>
+    <Setting Name="workspaceThreeBtn" Type="System.String" Scope="User">
+      <Value Profile="(Default)">W3</Value>
+    </Setting>
+    <Setting Name="workspaceFourBtn" Type="System.String" Scope="User">
+      <Value Profile="(Default)">W4</Value>
+    </Setting>
+    <Setting Name="workspaceFiveBtn" Type="System.String" Scope="User">
+      <Value Profile="(Default)">W5</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
