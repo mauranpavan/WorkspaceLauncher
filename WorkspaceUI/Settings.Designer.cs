@@ -12,7 +12,7 @@ namespace WorkspaceUI {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.7.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.11.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -80,6 +80,102 @@ namespace WorkspaceUI {
             }
             set {
                 this["workspaceFiveBtn"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("W1 App")]
+        public string W1SelectedAppName {
+            get {
+                return ((string)(this["W1SelectedAppName"]));
+            }
+            set {
+                this["W1SelectedAppName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("W1 File")]
+        public string W1SelectedFileName {
+            get {
+                return ((string)(this["W1SelectedFileName"]));
+            }
+            set {
+                this["W1SelectedFileName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("W1 File Path")]
+        public string W1SelectedFilePath {
+            get {
+                return ((string)(this["W1SelectedFilePath"]));
+            }
+            set {
+                this["W1SelectedFilePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("W1 App Path")]
+        public string W1SelectedAppPath {
+            get {
+                return ((string)(this["W1SelectedAppPath"]));
+            }
+            set {
+                this["W1SelectedAppPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("W2 App")]
+        public string W2SelectedAppName {
+            get {
+                return ((string)(this["W2SelectedAppName"]));
+            }
+            set {
+                this["W2SelectedAppName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("W2 File")]
+        public string W2SelectedFileName {
+            get {
+                return ((string)(this["W2SelectedFileName"]));
+            }
+            set {
+                this["W2SelectedFileName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("W2 File Path")]
+        public string W2SelectedFilePath {
+            get {
+                return ((string)(this["W2SelectedFilePath"]));
+            }
+            set {
+                this["W2SelectedFilePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("W2 App Path")]
+        public string W2SelectedAppPath {
+            get {
+                return ((string)(this["W2SelectedAppPath"]));
+            }
+            set {
+                this["W2SelectedAppPath"] = value;
             }
         }
     }

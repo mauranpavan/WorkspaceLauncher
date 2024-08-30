@@ -17,5 +17,29 @@
     <Setting Name="workspaceFiveBtn" Type="System.String" Scope="User">
       <Value Profile="(Default)">W5</Value>
     </Setting>
+    <Setting Name="W1SelectedAppName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">W1 App</Value>
+    </Setting>
+    <Setting Name="W1SelectedFileName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">W1 File</Value>
+    </Setting>
+    <Setting Name="W1SelectedFilePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">W1 File Path</Value>
+    </Setting>
+    <Setting Name="W1SelectedAppPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">W1 App Path</Value>
+    </Setting>
+    <Setting Name="W2SelectedAppName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">W2 App</Value>
+    </Setting>
+    <Setting Name="W2SelectedFileName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">W2 File</Value>
+    </Setting>
+    <Setting Name="W2SelectedFilePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">W2 File Path</Value>
+    </Setting>
+    <Setting Name="W2SelectedAppPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">W2 App Path</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
