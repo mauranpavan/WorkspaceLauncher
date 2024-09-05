@@ -6,6 +6,7 @@
     xmlns:local="clr-namespace:WorkspaceUI.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:WorkspaceUI.ViewModels"
+    xmlns:workspaceUi="clr-namespace:WorkspaceUI"
     Title="Action Configuration"
     Width="1000"
     Height="450"
@@ -13,148 +14,163 @@
     <Window.DataContext>
         <viewModels:WorkspaceItemViewModel />
     </Window.DataContext>
-
-    <StackPanel Name="Hg" Background="black">
-        <StackPanel
-            Margin="10,10,0,0"
-            HorizontalAlignment="Left"
-            Orientation="Horizontal">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <!--  This will take the remaining space  -->
-                </Grid.ColumnDefinitions>
-                <StackPanel
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Orientation="Horizontal">
-                    <Label
+    <Window.Resources>
+        <workspaceUi:RemoveItemCommandParameterConverter x:Key="RemoveItemCommandParameterConverter" />
+        <workspaceUi:EmptyStringToPlaceholderConverter x:Key="EmptyStringToPlaceholderConverter" />
+    </Window.Resources>
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <StackPanel Name="Hg" Background="black">
+            <!--  Workspace 1  -->
+            <StackPanel
+                Name="WorkspaceOneStackPanel"
+                Margin="10,10,0,0"
+                HorizontalAlignment="Left"
+                Orientation="Horizontal">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <!--  This will take the remaining space  -->
+                    </Grid.ColumnDefinitions>
+                    <StackPanel
+                        Grid.Row="0"
                         Grid.Column="0"
-                        Margin="10,10,10,10"
-                        Content="Workspace Item 1:"
-                        Foreground="{StaticResource Primary}" />
-                    <Label
-                        Name="W1SelectedApplicationName"
-                        Grid.Column="1"
-                        Margin="10,10,10,10"
-                        Content="Application:"
-                        Foreground="LightGreen" />
-                    <Button
-                        Name="W1SelectAppBtn"
-                        Grid.Column="2"
-                        Width="60"
-                        Height="20"
-                        Margin="10,10,10,10"
-                        HorizontalAlignment="Center"
-                        Background="Black"
-                        BorderBrush="Yellow"
-                        BorderThickness="0"
-                        Click="openProgramFiles_Click"
-                        Content="📂"
-                        Foreground="Yellow" />
-                    <Label
-                        Name="W1SelectedFileLabel"
-                        Grid.Column="3"
-                        Margin="10,10,10,10"
-                        Content="Associated File To Run:"
-                        Foreground="LightGreen" />
-                    <Button
-                        Name="W1SelectFileBtn"
-                        Grid.Column="4"
-                        Width="60"
-                        Height="20"
-                        Margin="10,10,10,10"
-                        HorizontalAlignment="Center"
-                        Background="Black"
-                        BorderBrush="Yellow"
-                        BorderThickness="0"
-                        Click="openMyDocuments_Click"
-                        Content="📂"
-                        Foreground="Yellow" />
-                    <TextBox
-                        Name="W1"
-                        Grid.Column="5"
-                        Width="200"
-                        Margin="10,10,10,10"
-                        HorizontalAlignment="Left"
-                        MaxLength="100"
-                        Text="Name" />
-                    <Button
-                        Name="W1AddButton"
-                        Grid.Column="5"
-                        Width="60"
-                        Height="20"
-                        Margin="10"
-                        HorizontalAlignment="Center"
-                        Background="Black"
-                        BorderBrush="Yellow"
-                        BorderThickness="1"
-                        Click="AddItem_Click"
-                        Content="Add"
-                        Foreground="Yellow" />
+                        Orientation="Horizontal">
+                        <Label
+                            Grid.Column="0"
+                            Margin="10,10,10,10"
+                            Content="Workspace 1:"
+                            Foreground="{StaticResource Primary}" />
+                        <TextBox
+                            Name="W1"
+                            Grid.Column="5"
+                            Width="200"
+                            Margin="10,10,10,10"
+                            HorizontalAlignment="Left"
+                            MaxLength="100"
+                            Text="Name" />
 
-                </StackPanel>
-                <StackPanel Grid.Row="1" Grid.Column="0">
-                    <ListBox
-                        x:Name="W1ListBox"
-                        Width="Auto"
-                        Height="Auto"
-                        ItemsSource="{Binding Items}" />
-                </StackPanel>
-            </Grid>
-        </StackPanel>
-        <StackPanel
+                        <Label
+                            Name="W1SelectedApplicationLabel"
+                            Margin="10,10,10,10"
+                            Content="Application:"
+                            Foreground="LightGreen" />
+                        <Label
+                            Name="W1SelectedApplicationName"
+                            Grid.Column="1"
+                            Margin="10,10,10,10"
+                            Content="{Binding SelectedAppName, Converter={StaticResource EmptyStringToPlaceholderConverter}}"
+                            FontStyle="Italic"
+                            Foreground="White" />
+                        <Button
+                            Name="W1SelectAppBtn"
+                            Grid.Column="2"
+                            Width="60"
+                            Height="20"
+                            Margin="10,10,10,10"
+                            HorizontalAlignment="Center"
+                            Background="Black"
+                            BorderBrush="Yellow"
+                            BorderThickness="0"
+                            Click="openProgramFiles_Click"
+                            Content="📂"
+                            Foreground="Yellow" />
+                        <Label
+                            Name="W1SelectedFileLabel"
+                            Margin="10,10,10,10"
+                            Content="File:"
+                            Foreground="LightGreen" />
+                        <Label
+                            Name="W1SelectedFileName"
+                            Grid.Column="3"
+                            Margin="10,10,10,10"
+                            Content="{Binding SelectedFileName, Converter={StaticResource EmptyStringToPlaceholderConverter}}"
+                            Foreground="White" />
+                        <Button
+                            Name="W1SelectFileBtn"
+                            Grid.Column="4"
+                            Width="60"
+                            Height="20"
+                            Margin="10,10,10,10"
+                            HorizontalAlignment="Center"
+                            Background="Black"
+                            BorderBrush="Yellow"
+                            BorderThickness="0"
+                            Click="openMyDocuments_Click"
+                            Content="📂"
+                            Foreground="Yellow" />
+                        <Button
+                            Name="W1AddButton"
+                            Grid.Column="5"
+                            Width="60"
+                            Height="20"
+                            Margin="10"
+                            HorizontalAlignment="Center"
+                            Background="Black"
+                            BorderBrush="Yellow"
+                            BorderThickness="1"
+                            Click="AddItem_Click"
+                            Content="Add"
+                            Foreground="Yellow" />
+
+
+                    </StackPanel>
+                    <StackPanel
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Background="Black">
+                        <ListBox x:Name="W1ListBox" ItemsSource="{Binding WorkspaceItems}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock VerticalAlignment="Center" Text="{Binding}" />
+                                        <Button
+                                            Width="30"
+                                            Height="30"
+                                            Margin="5"
+                                            Padding="1"
+                                            HorizontalAlignment="Center"
+                                            Background="Black"
+                                            BorderBrush="Yellow"
+                                            BorderThickness="2"
+                                            Command="{Binding DataContext.RemoveItemCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                            Content="❌"
+                                            Foreground="Red">
+                                            <Button.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource RemoveItemCommandParameterConverter}">
+                                                    <Binding Path="ItemsSource" RelativeSource="{RelativeSource AncestorType=ListBox}" />
+                                                    <Binding />
+                                                </MultiBinding>
+                                            </Button.CommandParameter>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+            <!--  Workspace 2  -->
+            <!--<StackPanel
             Margin="10,10,0,0"
             HorizontalAlignment="Left"
             Orientation="Horizontal">
             <Label
                 Margin="10,10,10,10"
-                Content="Workspace Item 2:"
+                Content="Workspace 2:"
                 Foreground="{StaticResource Primary}" />
-            <Label
-                Name="W2SelectedApplication"
-                Margin="10,10,10,10"
-                Content="Application:"
-                Foreground="LightGreen" />
-            <Button
-                Name="W2SelectAppBtn"
-                Width="60"
-                Height="20"
-                Margin="10,10,10,10"
-                HorizontalAlignment="Center"
-                Background="Black"
-                BorderBrush="LightGreen"
-                BorderThickness="0"
-                Click="openProgramFiles_Click"
-                Content="📂"
-                Foreground="LightGreen" />
-            <Label
-                Name="W2SelectedFileLabel"
-                Margin="10,10,10,10"
-                Content="Associated File To Run:"
-                Foreground="LightGreen" />
-            <Button
-                Name="W2SelectFileBtn"
-                Width="60"
-                Height="20"
-                Margin="10,10,10,10"
-                HorizontalAlignment="Center"
-                Background="Black"
-                BorderBrush="LightGreen"
-                BorderThickness="0"
-                Click="openMyDocuments_Click"
-                Content="📂"
-                Foreground="LightGreen" />
             <TextBox
                 Name="W2"
                 Width="200"
@@ -162,30 +178,262 @@
                 HorizontalAlignment="Left"
                 MaxLength="100"
                 Text="Name" />
+            <Label
+                Name="W2SelectedApplication"
+                Margin="10,10,10,10"
+                Content="Application:"
+                Foreground="LightGreen" />
+            <Label
+                Name="W2SelectedApplicationName"
+                Grid.Column="1"
+                Margin="10,10,10,10"
+                Content="___________________________________"
+                FontStyle="Italic"
+                Foreground="White" />
+            <Button
+                Name="W2SelectAppBtn"
+                Width="60"
+                Height="20"
+                Margin="10,10,10,10"
+                HorizontalAlignment="Center"
+                Background="Black"
+                BorderBrush="Yellow"
+                BorderThickness="0"
+                Click="openProgramFiles_Click"
+                Content="📂"
+                Foreground="Yellow" />
+            <Label
+                Name="W2SelectedFileLabel"
+                Margin="10,10,10,10"
+                Content="File:"
+                Foreground="LightGreen" />
+            <Label
+                Name="W2SelectedFileName"
+                Grid.Column="3"
+                Margin="10,10,10,10"
+                Content="___________________________________"
+                Foreground="White" />
+            <Button
+                Name="W2SelectFileBtn"
+                Width="60"
+                Height="20"
+                Margin="10,10,10,10"
+                HorizontalAlignment="Center"
+                Background="Black"
+                BorderBrush="Yellow"
+                BorderThickness="0"
+                Click="openMyDocuments_Click"
+                Content="📂"
+                Foreground="Yellow" />
+            <Button
+                Name="W2AddButton"
+                Grid.Column="5"
+                Width="60"
+                Height="20"
+                Margin="10"
+                HorizontalAlignment="Center"
+                Background="Black"
+                BorderBrush="Yellow"
+                BorderThickness="1"
+                Click="AddItem_Click"
+                Content="Add"
+                Foreground="Yellow" />
+            <StackPanel Background="Black">
+                <ListBox
+                    x:Name="W2ListBox"
+                    Width="Auto"
+                    Height="Auto"
+                    Background="Black"
+                    ItemsSource="{Binding W2Items}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    Margin="5"
+                                    VerticalAlignment="Center"
+                                    Foreground="White"
+                                    Text="{Binding}" />
+                                <Button
+                                    Width="30"
+                                    Height="30"
+                                    Margin="5"
+                                    Padding="1"
+                                    HorizontalAlignment="Center"
+                                    Background="Black"
+                                    BorderBrush="Yellow"
+                                    BorderThickness="2"
+                                    Command="{Binding DataContext.RemoveItemCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                    CommandParameter="{Binding}"
+                                    Content="❌"
+                                    Foreground="Red" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
 
+
+        </StackPanel>-->
+            <StackPanel
+                Name="WorkspaceTwoStackPanel"
+                Margin="10,10,0,0"
+                HorizontalAlignment="Left"
+                Orientation="Horizontal">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal">
+                        <Label
+                            Grid.Column="0"
+                            Margin="10,10,10,10"
+                            Content="Workspace 2:"
+                            Foreground="{StaticResource Primary}" />
+                        <TextBox
+                            Name="W2"
+                            Grid.Column="5"
+                            Width="200"
+                            Margin="10,10,10,10"
+                            HorizontalAlignment="Left"
+                            MaxLength="100"
+                            Text="Name" />
+
+                        <Label
+                            Name="W2SelectedApplicationLabel"
+                            Margin="10,10,10,10"
+                            Content="Application:"
+                            Foreground="LightGreen" />
+                        <Label
+                            Name="W2SelectedApplicationName"
+                            Grid.Column="1"
+                            Margin="10,10,10,10"
+                            Content="{Binding SelectedAppName, Converter={StaticResource EmptyStringToPlaceholderConverter}}"
+                            FontStyle="Italic"
+                            Foreground="White" />
+                        <Button
+                            Name="W2SelectAppBtn"
+                            Grid.Column="2"
+                            Width="60"
+                            Height="20"
+                            Margin="10,10,10,10"
+                            HorizontalAlignment="Center"
+                            Background="Black"
+                            BorderBrush="Yellow"
+                            BorderThickness="0"
+                            Click="openProgramFiles_Click"
+                            Content="📂"
+                            Foreground="Yellow" />
+                        <Label
+                            Name="W2SelectedFileLabel"
+                            Margin="10,10,10,10"
+                            Content="File:"
+                            Foreground="LightGreen" />
+                        <Label
+                            Name="W2SelectedFileName"
+                            Grid.Column="3"
+                            Margin="10,10,10,10"
+                            Content="{Binding SelectedFileName, Converter={StaticResource EmptyStringToPlaceholderConverter}}"
+                            Foreground="White" />
+                        <Button
+                            Name="W2SelectFileBtn"
+                            Grid.Column="4"
+                            Width="60"
+                            Height="20"
+                            Margin="10,10,10,10"
+                            HorizontalAlignment="Center"
+                            Background="Black"
+                            BorderBrush="Yellow"
+                            BorderThickness="0"
+                            Click="openMyDocuments_Click"
+                            Content="📂"
+                            Foreground="Yellow" />
+                        <Button
+                            Name="W2AddButton"
+                            Grid.Column="5"
+                            Width="60"
+                            Height="20"
+                            Margin="10"
+                            HorizontalAlignment="Center"
+                            Background="Black"
+                            BorderBrush="Yellow"
+                            BorderThickness="1"
+                            Click="AddItem_Click"
+                            Content="Add"
+                            Foreground="Yellow" />
+
+
+                    </StackPanel>
+                    <StackPanel
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Background="Black">
+                        <ListBox x:Name="W2ListBox" ItemsSource="{Binding WorkspaceItems}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock VerticalAlignment="Center" Text="{Binding}" />
+                                        <Button
+                                            Width="30"
+                                            Height="30"
+                                            Margin="5"
+                                            Padding="1"
+                                            HorizontalAlignment="Center"
+                                            Background="Black"
+                                            BorderBrush="Yellow"
+                                            BorderThickness="2"
+                                            Command="{Binding DataContext.RemoveItemCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                            Content="❌"
+                                            Foreground="Red">
+                                            <Button.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource RemoveItemCommandParameterConverter}">
+                                                    <Binding Path="ItemsSource" RelativeSource="{RelativeSource AncestorType=ListBox}" />
+                                                    <Binding />
+                                                </MultiBinding>
+                                            </Button.CommandParameter>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+            <!--  Cancel/Save  -->
+            <StackPanel Orientation="Horizontal">
+                <Button
+                    x:Name="cancelBtn"
+                    Width="100"
+                    Height="39"
+                    Margin="10,20,10,20"
+                    Background="Black"
+                    BorderBrush="Yellow"
+                    Click="cancelBtn_Click"
+                    Content="Cancel"
+                    Foreground="Yellow" />
+                <Button
+                    x:Name="saveBtn"
+                    Width="100"
+                    Height="39"
+                    Background="Black"
+                    BorderBrush="Yellow"
+                    Click="saveBtn_Click"
+                    Content="Save"
+                    Foreground="Yellow" />
+            </StackPanel>
 
         </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <Button
-                x:Name="cancelBtn"
-                Width="100"
-                Height="39"
-                Margin="0,20,10,20"
-                Background="Black"
-                BorderBrush="#FF62C6E8"
-                Click="cancelBtn_Click"
-                Content="Cancel"
-                Foreground="#FF62C6E8" />
-            <Button
-                x:Name="saveBtn"
-                Width="100"
-                Height="39"
-                Background="Black"
-                BorderBrush="#FF62C6E8"
-                Click="saveBtn_Click"
-                Content="Save"
-                Foreground="#FF62C6E8" />
-        </StackPanel>
-
-    </StackPanel>
+    </ScrollViewer>
 </Window>

@@ -15,6 +15,9 @@ using System.Windows.Media.Imaging;
 using System;
 using System.IO;
 using WorkspaceUI.ViewModels;
+using System.Collections.Specialized;
+using WorkspaceUI.Models;
+using System.Collections.ObjectModel;
 
 namespace WorkspaceUI.UserControls
 {
@@ -27,12 +30,19 @@ namespace WorkspaceUI.UserControls
         private Button? _workspaceTwoBtn;
         private Button? _workspaceThreeBtn;
         private Button? _workspaceFourBtn;
+
         private Button? _workspaceFiveBtn;
-        private WorkspaceItemViewModel? _viewModel;
-        private string _selectedAppPath = String.Empty;
-        private string _selectedAppName = String.Empty;     
-        private string _selectedFilePath = String.Empty;
-        private string _selectedFileName = String.Empty;
+
+        //private WorkspaceItemViewModel? _viewModel;
+        private WorkspaceItemViewModel? _viewModelWorkspace1;
+
+        private WorkspaceItemViewModel? _viewModelWorkspace2;
+
+        //private string _selectedAppPath = String.Empty;
+        //private string _selectedAppName = String.Empty;
+        //private string _selectedFilePath = String.Empty;
+        //private string _selectedFileName = String.Empty;
+        private SettingsHelper settingsHelper = new SettingsHelper();
 
         public ActionConfigWindow()
         {
@@ -40,29 +50,170 @@ namespace WorkspaceUI.UserControls
             if (Application.Current.MainWindow is MainWindow)
             {
                 MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-                _viewModel = DataContext as WorkspaceItemViewModel;
+
+                // Initialize separate ViewModels
+                _viewModelWorkspace1 = new WorkspaceItemViewModel();
+                _viewModelWorkspace2 = new WorkspaceItemViewModel();
+                // Assign each ViewModel to a different DataContext 
+                WorkspaceOneStackPanel.DataContext = _viewModelWorkspace1;
+                WorkspaceTwoStackPanel.DataContext = _viewModelWorkspace2;
+
                 //Retrieve stored application settings values from previous session
                 W1.Text = Settings.Default.workspaceOneBtn;
-                 W2.Text = Settings.Default.workspaceTwoBtn;
-                 //W3.Text = Settings.Default.workspaceThreeBtn;
-                 //W4.Text = Settings.Default.workspaceFourBtn;
-                 //W5.Text = Settings.Default.workspaceFiveBtn;
+                W2.Text = Settings.Default.workspaceTwoBtn;
+                //W3.Text = Settings.Default.workspaceThreeBtn;
+                //W4.Text = Settings.Default.workspaceFourBtn;
+                //W5.Text = Settings.Default.workspaceFiveBtn;
+                if (_viewModelWorkspace1 != null)
+                    _viewModelWorkspace1.AddAllItems(_viewModelWorkspace1.WorkspaceItems,
+                        settingsHelper.DeserializeJsonToList(Settings.Default.W1WorkspaceItemsJsonString));
+                if (_viewModelWorkspace2 != null)
+                    _viewModelWorkspace2.AddAllItems(_viewModelWorkspace2.WorkspaceItems,
+                        settingsHelper.DeserializeJsonToList(Settings.Default.W2WorkspaceItemsJsonString));
 
-
-                 _workspaceOneBtn = (Button?)mainWindow.FindName("workspaceOneBtn");
-                 _workspaceTwoBtn = (Button?)mainWindow.FindName("workspaceTwoBtn");
-                 _workspaceThreeBtn = (Button?)mainWindow.FindName("workspaceThreeBtn");
-                 _workspaceFourBtn = (Button?)mainWindow.FindName("workspaceFourBtn");
-                 _workspaceFiveBtn = (Button?)mainWindow.FindName("workspaceFiveBtn");
-
-                 W1SelectedApplicationName.Content = Settings.Default.W1SelectedAppName;
-                 W1SelectedFileLabel.Content = Settings.Default.W1SelectedFileName; //rename to label
-                 W2SelectedApplication.Content = Settings.Default.W2SelectedAppName;
-                 W2SelectedFileLabel.Content = Settings.Default.W2SelectedFileName;
+                _workspaceOneBtn = (Button?)mainWindow.FindName("workspaceOneBtn");
+                _workspaceTwoBtn = (Button?)mainWindow.FindName("workspaceTwoBtn");
+                _workspaceThreeBtn = (Button?)mainWindow.FindName("workspaceThreeBtn");
+                _workspaceFourBtn = (Button?)mainWindow.FindName("workspaceFourBtn");
+                _workspaceFiveBtn = (Button?)mainWindow.FindName("workspaceFiveBtn");
             }
             else
             {
                 Debug.WriteLine("Null Error - MainWindow is null");
+            }
+        }
+
+        private void openProgramFiles_Click(object sender, RoutedEventArgs e)
+        {
+            // Create an OpenFileDialog to select an executable file
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                InitialDirectory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles),
+                Filter = "Executable files (*.exe)|*.exe|All files (*.*)|*.*",
+                Title = "Select an Executable File"
+            };
+
+            // Show the dialog and get the result
+            bool? result = openFileDialog.ShowDialog();
+
+            // If the user selected a file, display the file path in the label
+            if (result == true)
+            {
+                Debug.WriteLine($"=== Selected Application Path: {openFileDialog.FileName}");
+                Debug.WriteLine($"=== Selected Application Name: {Path.GetFileName(openFileDialog.FileName)}");
+
+                // Determine which select button was clicked based on the sender
+                if (Equals(sender, W1SelectAppBtn))
+                {
+                    if (_viewModelWorkspace1 != null)
+                    {
+                        _viewModelWorkspace1.SelectedAppPath = openFileDialog.FileName;
+                        _viewModelWorkspace1.SelectedAppName = Path.GetFileName(_viewModelWorkspace1.SelectedAppPath);
+                        Settings.Default.W1SelectedAppName = _viewModelWorkspace1.SelectedAppName;
+                        Settings.Default.W1SelectedAppPath = _viewModelWorkspace1.SelectedAppPath;
+                    }
+                }
+                else if (Equals(sender, W2SelectAppBtn)) // Assume W2Button is the button for W2SelectedApplication
+                {
+                    if (_viewModelWorkspace2 != null)
+                    {
+                        _viewModelWorkspace2.SelectedAppPath = openFileDialog.FileName;
+                        _viewModelWorkspace2.SelectedAppName = Path.GetFileName(_viewModelWorkspace2.SelectedAppPath);
+                        Settings.Default.W1SelectedAppName = _viewModelWorkspace2.SelectedAppName;
+                        Settings.Default.W1SelectedAppPath = _viewModelWorkspace2.SelectedAppPath;
+                    }
+                }
+            }
+
+        }
+
+        private void openMyDocuments_Click(object sender, RoutedEventArgs e)
+        {
+            // Create an OpenFileDialog to select an executable file
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                InitialDirectory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments),
+                Title = "Select the file to be run with the application"
+            };
+
+            // Show the dialog and get the result
+            bool? result = openFileDialog.ShowDialog();
+
+            // If the user selected a file, display the file path in the TextBox
+            if (result == true)
+            {
+                Debug.WriteLine($"=== Selected File Path: {openFileDialog.FileName}");
+                Debug.WriteLine($"=== Selected File Name: {Path.GetFileName(openFileDialog.FileName)}");
+
+                //_selectedFilePath = openFileDialog.FileName;
+                //_selectedFileName = Path.GetFileName(_selectedFilePath);
+
+                if (Equals(sender, W1SelectFileBtn))
+                {
+                    if (_viewModelWorkspace1 != null)
+                    {
+                        _viewModelWorkspace1.SelectedFilePath = openFileDialog.FileName;
+                        _viewModelWorkspace1.SelectedFileName = Path.GetFileName(_viewModelWorkspace1.SelectedFilePath);
+                        Settings.Default.W1SelectedFileName = _viewModelWorkspace1.SelectedFileName;
+                        Settings.Default.W1SelectedFilePath = _viewModelWorkspace1.SelectedFilePath;
+                    }
+                }
+                else if (Equals(sender, W2SelectFileBtn))
+                {
+                    if (_viewModelWorkspace2 != null)
+                    {
+                        _viewModelWorkspace2.SelectedFilePath = openFileDialog.FileName;
+                        _viewModelWorkspace2.SelectedFileName = Path.GetFileName(_viewModelWorkspace2.SelectedFilePath);
+                        Settings.Default.W2SelectedFileName = _viewModelWorkspace2.SelectedFileName;
+                        Settings.Default.W2SelectedFilePath = _viewModelWorkspace2.SelectedFilePath;
+                    }
+                }
+            }
+        }
+
+
+        private void AddItem_Click(object sender, RoutedEventArgs e)
+        {
+            /*TODO: Suppose user selects appl and file on W1 but clicks the add button in W2 */
+            if (Equals(sender, W1AddButton))
+            {
+                if (_viewModelWorkspace1 != null)
+                {
+                    WorkspaceItem newWorkspaceItem =
+                        new WorkspaceItem(_viewModelWorkspace1.SelectedAppName, _viewModelWorkspace1.SelectedAppPath,
+                            _viewModelWorkspace1.SelectedFileName, _viewModelWorkspace1.SelectedFilePath);
+
+                    var collection = W1ListBox.ItemsSource as ObservableCollection<WorkspaceItem>;
+                    if (_viewModelWorkspace1 != null)
+                    {
+                        _viewModelWorkspace1.AddItem(collection, newWorkspaceItem);
+
+                        //Clearing values
+                        _viewModelWorkspace1.SelectedAppName = String.Empty;
+                        _viewModelWorkspace1.SelectedAppPath = String.Empty;
+                        _viewModelWorkspace1.SelectedFileName = String.Empty;
+                        _viewModelWorkspace1.SelectedFilePath = String.Empty;
+                    }
+                }
+            }
+            else if (Equals(sender, W2AddButton))
+            {
+                if (_viewModelWorkspace2 != null)
+                {
+                    WorkspaceItem newWorkspaceItem =
+                        new WorkspaceItem(_viewModelWorkspace2.SelectedAppName, _viewModelWorkspace2.SelectedAppPath,
+                            _viewModelWorkspace2.SelectedFileName, _viewModelWorkspace2.SelectedFilePath);
+
+                    var collection = W2ListBox.ItemsSource as ObservableCollection<WorkspaceItem>;
+
+                    _viewModelWorkspace2.AddItem(collection, newWorkspaceItem);
+
+                    //Clearing values
+                    _viewModelWorkspace2.SelectedAppName = String.Empty;
+                    _viewModelWorkspace2.SelectedAppPath = String.Empty;
+                    _viewModelWorkspace2.SelectedFileName = String.Empty;
+                    _viewModelWorkspace2.SelectedFilePath = String.Empty;
+                }
             }
         }
 
@@ -88,9 +239,18 @@ namespace WorkspaceUI.UserControls
             // Save the changes to persist them
             Settings.Default.Save();
 
-            BatchFileCreator w1BatchFileCreator = new BatchFileCreator("W1", Settings.Default.W1SelectedAppPath, Settings.Default.W1SelectedFilePath);
-            BatchFileCreator w2BatchFileCreator = new BatchFileCreator("W2", Settings.Default.W2SelectedAppPath, Settings.Default.W2SelectedFilePath);
-           
+            Settings.Default.W1WorkspaceItemsJsonString =
+                settingsHelper.SerializeItemCollectionToJson(W1ListBox.Items);
+            Debug.WriteLine("W1WorkspaceItemsJsonString: ");
+            Debug.WriteLine(Settings.Default.W1WorkspaceItemsJsonString);
+            Settings.Default.W2WorkspaceItemsJsonString =
+                settingsHelper.SerializeItemCollectionToJson(W2ListBox.Items);
+            Debug.WriteLine("W2WorkspaceItemsJsonString: ");
+            Debug.WriteLine(Settings.Default.W2WorkspaceItemsJsonString);
+
+            BatchFileCreator w1BatchFileCreator = new BatchFileCreator("W1", W1ListBox.Items);
+            BatchFileCreator w2BatchFileCreator = new BatchFileCreator("W2", W2ListBox.Items);
+
 
             this.Close();
         }
@@ -99,94 +259,5 @@ namespace WorkspaceUI.UserControls
         {
             this.Close();
         }
-
-        private void openProgramFiles_Click(object sender, RoutedEventArgs e)
-        {
-            // Create an OpenFileDialog to select an executable file
-            OpenFileDialog openFileDialog = new OpenFileDialog
-            {
-                InitialDirectory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles),
-                Filter = "Executable files (*.exe)|*.exe|All files (*.*)|*.*",
-                Title = "Select an Executable File"
-            };
-            
-            // Show the dialog and get the result
-            bool? result = openFileDialog.ShowDialog();
-
-            // If the user selected a file, display the file path in the label
-            if (result == true)
-            {
-                Debug.WriteLine($"=== Selected Application Path: {openFileDialog.FileName}");
-                Debug.WriteLine($"=== Selected Application Name: {Path.GetFileName(openFileDialog.FileName)}");
-
-                _selectedAppPath = openFileDialog.FileName;
-                _selectedAppName = Path.GetFileName(_selectedAppPath);
-
-                // Determine which select button was clicked based on the sender
-                if (sender == W1SelectAppBtn) 
-                {
-                    W1SelectedApplicationName.Content = _selectedAppName;
-                    Settings.Default.W1SelectedAppName = _selectedAppName;
-                    Settings.Default.W1SelectedAppPath = _selectedAppPath;
-                }             
-                else if (sender == W2SelectAppBtn) // Assume W2Button is the button for W2SelectedApplication
-                {
-                    W2SelectedApplication.Content = _selectedAppName;
-                    Settings.Default.W2SelectedAppName = _selectedAppName;
-                    Settings.Default.W2SelectedAppPath = _selectedAppPath;
-                }
-
-            }
-        }
-
-        private void openMyDocuments_Click(object sender, RoutedEventArgs e)
-        {
-            // Create an OpenFileDialog to select an executable file
-            OpenFileDialog openFileDialog = new OpenFileDialog
-            {
-                InitialDirectory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments),
-                Title = "Select the file to be run with the application"
-            };
-
-            // Show the dialog and get the result
-            bool? result = openFileDialog.ShowDialog();
-
-            // If the user selected a file, display the file path in the TextBox
-            if (result == true)
-            {
-                Debug.WriteLine($"=== Selected File Path: {openFileDialog.FileName}");
-                Debug.WriteLine($"=== Selected File Name: {Path.GetFileName(openFileDialog.FileName)}");
-
-                _selectedFilePath = openFileDialog.FileName;
-                _selectedFileName = Path.GetFileName(_selectedFilePath);
-
-                if (sender == W1SelectFileBtn)
-                {
-                    W1SelectedFileLabel.Content = _selectedFileName;
-                    Settings.Default.W1SelectedFileName = _selectedFileName;
-                    Settings.Default.W1SelectedFilePath = _selectedFilePath;
-                }
-                else if (sender == W2SelectFileBtn)
-                {
-                    W2SelectedFileLabel.Content = _selectedFileName;
-                    Settings.Default.W2SelectedFileName = _selectedFileName;
-                    Settings.Default.W2SelectedFilePath = _selectedFilePath;
-                }
-            }
-        }
-
-
-        private void AddItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (_viewModel != null) _viewModel.AddItem($"{_selectedAppName} ====> {_selectedFilePath}");
-        }
-
-        //private void RemoveItem_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (ItemsListBox.SelectedItem != null)
-        //    {
-        //        _viewModel.RemoveItem(ItemsListBox.SelectedItem.ToString());
-        //    }
-        //}
     }
 }
