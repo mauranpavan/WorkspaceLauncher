@@ -27,22 +27,16 @@ namespace WorkspaceUI.UserControls
     public partial class ActionConfigWindow : Window
     {
         private readonly Button? _workspaceOneBtn;
-        private Button? _workspaceTwoBtn;
-        private Button? _workspaceThreeBtn;
-        private Button? _workspaceFourBtn;
-
-        private Button? _workspaceFiveBtn;
-
-        //private WorkspaceItemViewModel? _viewModel;
-        private WorkspaceItemViewModel? _viewModelWorkspace1;
-
-        private WorkspaceItemViewModel? _viewModelWorkspace2;
-
-        //private string _selectedAppPath = String.Empty;
-        //private string _selectedAppName = String.Empty;
-        //private string _selectedFilePath = String.Empty;
-        //private string _selectedFileName = String.Empty;
-        private SettingsHelper settingsHelper = new SettingsHelper();
+        private readonly Button? _workspaceTwoBtn;
+        private readonly Button? _workspaceThreeBtn;
+        private readonly Button? _workspaceFourBtn;
+        private readonly Button? _workspaceFiveBtn;
+        private WorkspaceItemViewModel? _workspace1ViewModel;
+        private WorkspaceItemViewModel? _workspace2ViewModel;
+        private WorkspaceItemViewModel? _workspace3ViewModel;
+        private WorkspaceItemViewModel? _workspace4ViewModel;
+        private WorkspaceItemViewModel? _workspace5ViewModel;
+        private SettingsHelper _settingsHelper = new SettingsHelper();
 
         public ActionConfigWindow()
         {
@@ -52,30 +46,48 @@ namespace WorkspaceUI.UserControls
                 MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
 
                 // Initialize separate ViewModels
-                _viewModelWorkspace1 = new WorkspaceItemViewModel();
-                _viewModelWorkspace2 = new WorkspaceItemViewModel();
-                // Assign each ViewModel to a different DataContext 
-                WorkspaceOneStackPanel.DataContext = _viewModelWorkspace1;
-                WorkspaceTwoStackPanel.DataContext = _viewModelWorkspace2;
+                _workspace1ViewModel = new WorkspaceItemViewModel();
+                _workspace2ViewModel = new WorkspaceItemViewModel();
+                _workspace3ViewModel = new WorkspaceItemViewModel();
+                _workspace4ViewModel = new WorkspaceItemViewModel();
+                _workspace5ViewModel = new WorkspaceItemViewModel();
 
-                //Retrieve stored application settings values from previous session
-                W1.Text = Settings.Default.workspaceOneBtn;
-                W2.Text = Settings.Default.workspaceTwoBtn;
-                //W3.Text = Settings.Default.workspaceThreeBtn;
-                //W4.Text = Settings.Default.workspaceFourBtn;
-                //W5.Text = Settings.Default.workspaceFiveBtn;
-                if (_viewModelWorkspace1 != null)
-                    _viewModelWorkspace1.AddAllItems(_viewModelWorkspace1.WorkspaceItems,
-                        settingsHelper.DeserializeJsonToList(Settings.Default.W1WorkspaceItemsJsonString));
-                if (_viewModelWorkspace2 != null)
-                    _viewModelWorkspace2.AddAllItems(_viewModelWorkspace2.WorkspaceItems,
-                        settingsHelper.DeserializeJsonToList(Settings.Default.W2WorkspaceItemsJsonString));
+                // Assign each ViewModel to their respective DataContext 
+                WorkspaceOneStackPanel.DataContext = _workspace1ViewModel;
+                WorkspaceTwoStackPanel.DataContext = _workspace2ViewModel;
+                WorkspaceThreeStackPanel.DataContext = _workspace3ViewModel;
+                WorkspaceFourStackPanel.DataContext = _workspace4ViewModel;
+                WorkspaceFiveStackPanel.DataContext = _workspace5ViewModel;
 
-                _workspaceOneBtn = (Button?)mainWindow.FindName("workspaceOneBtn");
-                _workspaceTwoBtn = (Button?)mainWindow.FindName("workspaceTwoBtn");
-                _workspaceThreeBtn = (Button?)mainWindow.FindName("workspaceThreeBtn");
-                _workspaceFourBtn = (Button?)mainWindow.FindName("workspaceFourBtn");
-                _workspaceFiveBtn = (Button?)mainWindow.FindName("workspaceFiveBtn");
+                //Retrieve stored application settings: populate workspace names
+                W1NameTextBox.Text = Settings.Default.workspaceOneBtn;
+                W2NameTextBox.Text = Settings.Default.workspaceTwoBtn;
+                W3NameTextBox.Text = Settings.Default.workspaceThreeBtn;
+                W4NameTextBox.Text = Settings.Default.workspaceFourBtn;
+                W5NameTextBox.Text = Settings.Default.workspaceFiveBtn;
+
+                //Retrieve stored application settings: populate listbox with workspace items
+                if (_workspace1ViewModel != null)
+                    _workspace1ViewModel.AddAllItems(_workspace1ViewModel.WorkspaceItems,
+                        _settingsHelper.DeserializeJsonToList(Settings.Default.W1WorkspaceItemsJsonString));
+                if (_workspace2ViewModel != null)
+                    _workspace2ViewModel.AddAllItems(_workspace2ViewModel.WorkspaceItems,
+                        _settingsHelper.DeserializeJsonToList(Settings.Default.W2WorkspaceItemsJsonString));
+                if (_workspace3ViewModel != null)
+                    _workspace3ViewModel.AddAllItems(_workspace3ViewModel.WorkspaceItems,
+                        _settingsHelper.DeserializeJsonToList(Settings.Default.W3WorkspaceItemsJsonString));
+                if (_workspace4ViewModel != null)
+                    _workspace4ViewModel.AddAllItems(_workspace4ViewModel.WorkspaceItems,
+                        _settingsHelper.DeserializeJsonToList(Settings.Default.W4WorkspaceItemsJsonString));
+                if (_workspace5ViewModel != null)
+                    _workspace5ViewModel.AddAllItems(_workspace5ViewModel.WorkspaceItems,
+                        _settingsHelper.DeserializeJsonToList(Settings.Default.W5WorkspaceItemsJsonString));
+
+                _workspaceOneBtn = (Button?)mainWindow.FindName("WorkspaceOneBtn");
+                _workspaceTwoBtn = (Button?)mainWindow.FindName("WorkspaceTwoBtn");
+                _workspaceThreeBtn = (Button?)mainWindow.FindName("WorkspaceThreeBtn");
+                _workspaceFourBtn = (Button?)mainWindow.FindName("WorkspaceFourBtn");
+                _workspaceFiveBtn = (Button?)mainWindow.FindName("WorkspaceFiveBtn");
             }
             else
             {
@@ -83,6 +95,9 @@ namespace WorkspaceUI.UserControls
             }
         }
 
+        /*
+         * Application Selection
+         */
         private void openProgramFiles_Click(object sender, RoutedEventArgs e)
         {
             // Create an OpenFileDialog to select an executable file
@@ -105,28 +120,76 @@ namespace WorkspaceUI.UserControls
                 // Determine which select button was clicked based on the sender
                 if (Equals(sender, W1SelectAppBtn))
                 {
-                    if (_viewModelWorkspace1 != null)
+                    if (_workspace1ViewModel == null)
                     {
-                        _viewModelWorkspace1.SelectedAppPath = openFileDialog.FileName;
-                        _viewModelWorkspace1.SelectedAppName = Path.GetFileName(_viewModelWorkspace1.SelectedAppPath);
-                        Settings.Default.W1SelectedAppName = _viewModelWorkspace1.SelectedAppName;
-                        Settings.Default.W1SelectedAppPath = _viewModelWorkspace1.SelectedAppPath;
+                        Debug.WriteLine("Workspace 1 ViewModel is null");
+                        return;
                     }
+                    _workspace1ViewModel.SelectedAppPath = openFileDialog.FileName;
+                        _workspace1ViewModel.SelectedAppName = Path.GetFileName(_workspace1ViewModel.SelectedAppPath);
+                        Settings.Default.W1SelectedAppName = _workspace1ViewModel.SelectedAppName;
+                        Settings.Default.W1SelectedAppPath = _workspace1ViewModel.SelectedAppPath;
+                    
                 }
-                else if (Equals(sender, W2SelectAppBtn)) // Assume W2Button is the button for W2SelectedApplication
+                else if (Equals(sender, W2SelectAppBtn))
                 {
-                    if (_viewModelWorkspace2 != null)
+                    if (_workspace2ViewModel == null)
                     {
-                        _viewModelWorkspace2.SelectedAppPath = openFileDialog.FileName;
-                        _viewModelWorkspace2.SelectedAppName = Path.GetFileName(_viewModelWorkspace2.SelectedAppPath);
-                        Settings.Default.W1SelectedAppName = _viewModelWorkspace2.SelectedAppName;
-                        Settings.Default.W1SelectedAppPath = _viewModelWorkspace2.SelectedAppPath;
+                        Debug.WriteLine("Workspace 2 ViewModel is null");
+                        return;
                     }
+                    _workspace2ViewModel.SelectedAppPath = openFileDialog.FileName;
+                        _workspace2ViewModel.SelectedAppName = Path.GetFileName(_workspace2ViewModel.SelectedAppPath);
+                        Settings.Default.W1SelectedAppName = _workspace2ViewModel.SelectedAppName;
+                        Settings.Default.W1SelectedAppPath = _workspace2ViewModel.SelectedAppPath;
+                    
+                }
+                else if (Equals(sender, W3SelectAppBtn))
+                {
+                    if (_workspace3ViewModel == null)
+                    {
+                        Debug.WriteLine("Workspace 3 ViewModel is null");
+                        return;
+                    }
+                    _workspace3ViewModel.SelectedAppPath = openFileDialog.FileName;
+                        _workspace3ViewModel.SelectedAppName = Path.GetFileName(_workspace3ViewModel.SelectedAppPath);
+                        Settings.Default.W3SelectedAppName = _workspace3ViewModel.SelectedAppName;
+                        Settings.Default.W3SelectedAppPath = _workspace3ViewModel.SelectedAppPath;
+                    
+                }
+                else if (Equals(sender, W4SelectAppBtn))
+                {
+                    if (_workspace4ViewModel == null)
+                    {
+                        Debug.WriteLine("Workspace 4 ViewModel is null");
+                        return;
+                    }
+                    _workspace4ViewModel.SelectedAppPath = openFileDialog.FileName;
+                        _workspace4ViewModel.SelectedAppName = Path.GetFileName(_workspace4ViewModel.SelectedAppPath);
+                        Settings.Default.W4SelectedAppName = _workspace4ViewModel.SelectedAppName;
+                        Settings.Default.W4SelectedAppPath = _workspace4ViewModel.SelectedAppPath;
+                    
+                }
+                else if (Equals(sender, W5SelectAppBtn))
+                {
+
+                    if (_workspace5ViewModel == null)
+                    {
+                        Debug.WriteLine("Workspace 5 ViewModel is null");
+                        return;
+                    }
+                    _workspace5ViewModel.SelectedAppPath = openFileDialog.FileName;
+                        _workspace5ViewModel.SelectedAppName = Path.GetFileName(_workspace5ViewModel.SelectedAppPath);
+                        Settings.Default.W5SelectedAppName = _workspace5ViewModel.SelectedAppName;
+                        Settings.Default.W5SelectedAppPath = _workspace5ViewModel.SelectedAppPath;
+                    
                 }
             }
-
         }
 
+        /**
+         * Associated File To Run With The Application
+         */
         private void openMyDocuments_Click(object sender, RoutedEventArgs e)
         {
             // Create an OpenFileDialog to select an executable file
@@ -145,28 +208,70 @@ namespace WorkspaceUI.UserControls
                 Debug.WriteLine($"=== Selected File Path: {openFileDialog.FileName}");
                 Debug.WriteLine($"=== Selected File Name: {Path.GetFileName(openFileDialog.FileName)}");
 
-                //_selectedFilePath = openFileDialog.FileName;
-                //_selectedFileName = Path.GetFileName(_selectedFilePath);
-
                 if (Equals(sender, W1SelectFileBtn))
                 {
-                    if (_viewModelWorkspace1 != null)
+                    if (_workspace1ViewModel == null)
                     {
-                        _viewModelWorkspace1.SelectedFilePath = openFileDialog.FileName;
-                        _viewModelWorkspace1.SelectedFileName = Path.GetFileName(_viewModelWorkspace1.SelectedFilePath);
-                        Settings.Default.W1SelectedFileName = _viewModelWorkspace1.SelectedFileName;
-                        Settings.Default.W1SelectedFilePath = _viewModelWorkspace1.SelectedFilePath;
+                        Debug.WriteLine("Workspace 1 ViewModel is null");
+                        return;
                     }
+
+                    _workspace1ViewModel.SelectedFilePath = openFileDialog.FileName;
+                    _workspace1ViewModel.SelectedFileName = Path.GetFileName(_workspace1ViewModel.SelectedFilePath);
+                    Settings.Default.W1SelectedFileName = _workspace1ViewModel.SelectedFileName;
+                    Settings.Default.W1SelectedFilePath = _workspace1ViewModel.SelectedFilePath;
                 }
                 else if (Equals(sender, W2SelectFileBtn))
                 {
-                    if (_viewModelWorkspace2 != null)
+                    if (_workspace2ViewModel == null)
                     {
-                        _viewModelWorkspace2.SelectedFilePath = openFileDialog.FileName;
-                        _viewModelWorkspace2.SelectedFileName = Path.GetFileName(_viewModelWorkspace2.SelectedFilePath);
-                        Settings.Default.W2SelectedFileName = _viewModelWorkspace2.SelectedFileName;
-                        Settings.Default.W2SelectedFilePath = _viewModelWorkspace2.SelectedFilePath;
+                        Debug.WriteLine("Workspace 2 ViewModel is null");
+                        return;
                     }
+
+                    _workspace2ViewModel.SelectedFilePath = openFileDialog.FileName;
+                    _workspace2ViewModel.SelectedFileName = Path.GetFileName(_workspace2ViewModel.SelectedFilePath);
+                    Settings.Default.W2SelectedFileName = _workspace2ViewModel.SelectedFileName;
+                    Settings.Default.W2SelectedFilePath = _workspace2ViewModel.SelectedFilePath;
+                }
+                else if (Equals(sender, W3SelectFileBtn))
+                {
+                    if (_workspace3ViewModel == null)
+                    {
+                        Debug.WriteLine("Workspace 3 ViewModel is null");
+                        return;
+                    }
+
+                    _workspace3ViewModel.SelectedFilePath = openFileDialog.FileName;
+                    _workspace3ViewModel.SelectedFileName = Path.GetFileName(_workspace3ViewModel.SelectedFilePath);
+                    Settings.Default.W3SelectedFileName = _workspace3ViewModel.SelectedFileName;
+                    Settings.Default.W3SelectedFilePath = _workspace3ViewModel.SelectedFilePath;
+                }
+                else if (Equals(sender, W4SelectFileBtn))
+                {
+                    if (_workspace4ViewModel == null)
+                    {
+                        Debug.WriteLine("Workspace 4 ViewModel is null");
+                        return;
+                    }
+
+                    _workspace4ViewModel.SelectedFilePath = openFileDialog.FileName;
+                    _workspace4ViewModel.SelectedFileName = Path.GetFileName(_workspace4ViewModel.SelectedFilePath);
+                    Settings.Default.W4SelectedFileName = _workspace4ViewModel.SelectedFileName;
+                    Settings.Default.W4SelectedFilePath = _workspace4ViewModel.SelectedFilePath;
+                }
+                else if (Equals(sender, W5SelectFileBtn))
+                {
+                    if (_workspace5ViewModel == null)
+                    {
+                        Debug.WriteLine("Workspace 5 ViewModel is null");
+                        return;
+                    }
+
+                    _workspace5ViewModel.SelectedFilePath = openFileDialog.FileName;
+                    _workspace5ViewModel.SelectedFileName = Path.GetFileName(_workspace5ViewModel.SelectedFilePath);
+                    Settings.Default.W5SelectedFileName = _workspace5ViewModel.SelectedFileName;
+                    Settings.Default.W5SelectedFilePath = _workspace5ViewModel.SelectedFilePath;
                 }
             }
         }
@@ -177,80 +282,172 @@ namespace WorkspaceUI.UserControls
             /*TODO: Suppose user selects appl and file on W1 but clicks the add button in W2 */
             if (Equals(sender, W1AddButton))
             {
-                if (_viewModelWorkspace1 != null)
+                if (_workspace1ViewModel == null)
                 {
-                    WorkspaceItem newWorkspaceItem =
-                        new WorkspaceItem(_viewModelWorkspace1.SelectedAppName, _viewModelWorkspace1.SelectedAppPath,
-                            _viewModelWorkspace1.SelectedFileName, _viewModelWorkspace1.SelectedFilePath);
-
-                    var collection = W1ListBox.ItemsSource as ObservableCollection<WorkspaceItem>;
-                    if (_viewModelWorkspace1 != null)
-                    {
-                        _viewModelWorkspace1.AddItem(collection, newWorkspaceItem);
-
-                        //Clearing values
-                        _viewModelWorkspace1.SelectedAppName = String.Empty;
-                        _viewModelWorkspace1.SelectedAppPath = String.Empty;
-                        _viewModelWorkspace1.SelectedFileName = String.Empty;
-                        _viewModelWorkspace1.SelectedFilePath = String.Empty;
-                    }
+                    Debug.WriteLine("Workspace 1 ViewModel is null");
+                    return;
                 }
+
+                // Create a new WorkspaceItem
+                WorkspaceItem newWorkspaceItem =
+                    new WorkspaceItem(_workspace1ViewModel.SelectedAppName, _workspace1ViewModel.SelectedAppPath,
+                        _workspace1ViewModel.SelectedFileName, _workspace1ViewModel.SelectedFilePath);
+
+                // Get the collection from W1ListBox
+                var collection = W1ListBox.ItemsSource as ObservableCollection<WorkspaceItem>;
+
+                // Add the new WorkspaceItem to the collection
+                _workspace1ViewModel.AddItem(collection, newWorkspaceItem);
+
+                // Clearing values
+                _workspace1ViewModel.SelectedAppName = String.Empty;
+                _workspace1ViewModel.SelectedAppPath = String.Empty;
+                _workspace1ViewModel.SelectedFileName = String.Empty;
+                _workspace1ViewModel.SelectedFilePath = String.Empty;
+
             }
             else if (Equals(sender, W2AddButton))
             {
-                if (_viewModelWorkspace2 != null)
+                if (_workspace2ViewModel == null)
                 {
-                    WorkspaceItem newWorkspaceItem =
-                        new WorkspaceItem(_viewModelWorkspace2.SelectedAppName, _viewModelWorkspace2.SelectedAppPath,
-                            _viewModelWorkspace2.SelectedFileName, _viewModelWorkspace2.SelectedFilePath);
-
-                    var collection = W2ListBox.ItemsSource as ObservableCollection<WorkspaceItem>;
-
-                    _viewModelWorkspace2.AddItem(collection, newWorkspaceItem);
-
-                    //Clearing values
-                    _viewModelWorkspace2.SelectedAppName = String.Empty;
-                    _viewModelWorkspace2.SelectedAppPath = String.Empty;
-                    _viewModelWorkspace2.SelectedFileName = String.Empty;
-                    _viewModelWorkspace2.SelectedFilePath = String.Empty;
+                    Debug.WriteLine("Workspace 2 ViewModel is null");
+                    return;
                 }
+
+                WorkspaceItem newWorkspaceItem =
+                    new WorkspaceItem(_workspace2ViewModel.SelectedAppName, _workspace2ViewModel.SelectedAppPath,
+                        _workspace2ViewModel.SelectedFileName, _workspace2ViewModel.SelectedFilePath);
+
+                var collection = W2ListBox.ItemsSource as ObservableCollection<WorkspaceItem>;
+
+                _workspace2ViewModel.AddItem(collection, newWorkspaceItem);
+
+                // Clearing values
+                _workspace2ViewModel.SelectedAppName = String.Empty;
+                _workspace2ViewModel.SelectedAppPath = String.Empty;
+                _workspace2ViewModel.SelectedFileName = String.Empty;
+                _workspace2ViewModel.SelectedFilePath = String.Empty;
+
+            }
+            else if (Equals(sender, W3AddButton))
+            {
+                if (_workspace3ViewModel == null)
+                {
+                    Debug.WriteLine("Workspace 3 ViewModel is null");
+                    return;
+                }
+
+                WorkspaceItem newWorkspaceItem =
+                    new WorkspaceItem(_workspace3ViewModel.SelectedAppName, _workspace3ViewModel.SelectedAppPath,
+                        _workspace3ViewModel.SelectedFileName, _workspace3ViewModel.SelectedFilePath);
+
+                var collection = W3ListBox.ItemsSource as ObservableCollection<WorkspaceItem>;
+
+                _workspace3ViewModel.AddItem(collection, newWorkspaceItem);
+
+                // Clearing values
+                _workspace3ViewModel.SelectedAppName = String.Empty;
+                _workspace3ViewModel.SelectedAppPath = String.Empty;
+                _workspace3ViewModel.SelectedFileName = String.Empty;
+                _workspace3ViewModel.SelectedFilePath = String.Empty;
+            }
+            else if (Equals(sender, W4AddButton))
+            {
+                if (_workspace4ViewModel == null)
+                {
+                    Debug.WriteLine("Workspace 4 ViewModel is null");
+                    return;
+                }
+
+                WorkspaceItem newWorkspaceItem =
+                    new WorkspaceItem(_workspace4ViewModel.SelectedAppName, _workspace4ViewModel.SelectedAppPath,
+                        _workspace4ViewModel.SelectedFileName, _workspace4ViewModel.SelectedFilePath);
+
+                var collection = W4ListBox.ItemsSource as ObservableCollection<WorkspaceItem>;
+
+                _workspace4ViewModel.AddItem(collection, newWorkspaceItem);
+
+                // Clearing values
+                _workspace4ViewModel.SelectedAppName = String.Empty;
+                _workspace4ViewModel.SelectedAppPath = String.Empty;
+                _workspace4ViewModel.SelectedFileName = String.Empty;
+                _workspace4ViewModel.SelectedFilePath = String.Empty;
+            }
+            else if (Equals(sender, W5AddButton))
+            {
+                if (_workspace5ViewModel == null)
+                {
+                    Debug.WriteLine("Workspace 5 ViewModel is null");
+                    return;
+                }
+
+                WorkspaceItem newWorkspaceItem =
+                    new WorkspaceItem(_workspace5ViewModel.SelectedAppName, _workspace5ViewModel.SelectedAppPath,
+                        _workspace5ViewModel.SelectedFileName, _workspace5ViewModel.SelectedFilePath);
+
+                var collection = W5ListBox.ItemsSource as ObservableCollection<WorkspaceItem>;
+
+                _workspace5ViewModel.AddItem(collection, newWorkspaceItem);
+
+                // Clearing values
+                _workspace5ViewModel.SelectedAppName = String.Empty;
+                _workspace5ViewModel.SelectedAppPath = String.Empty;
+                _workspace5ViewModel.SelectedFileName = String.Empty;
+                _workspace5ViewModel.SelectedFilePath = String.Empty;
             }
         }
 
         private void saveBtn_Click(object sender, RoutedEventArgs e)
         {
             //After user makes changes to the TextBoxes, apply these to the main window buttons
-            if (_workspaceOneBtn != null) _workspaceOneBtn.Content = W1.Text;
-            if (_workspaceTwoBtn != null) _workspaceTwoBtn.Content = W2.Text;
-            //workspaceThreeBtn.Content = W3.Text;
-            //workspaceFourBtn.Content = W4.Text;
-            //workspaceFiveBtn.Content = W5.Text;
+            if (_workspaceOneBtn != null) _workspaceOneBtn.Content = W1NameTextBox.Text;
+            if (_workspaceTwoBtn != null) _workspaceTwoBtn.Content = W2NameTextBox.Text;
+            if (_workspaceThreeBtn != null) _workspaceThreeBtn.Content = W3NameTextBox.Text;
+            if (_workspaceFourBtn != null) _workspaceFourBtn.Content = W4NameTextBox.Text;
+            if (_workspaceFiveBtn != null) _workspaceFiveBtn.Content = W5NameTextBox.Text;
 
             // Update the setting  so that they are stored between application sessions
-            Settings.Default.workspaceOneBtn = W1.Text;
-            Settings.Default.workspaceTwoBtn = W2.Text;
-            //Settings.Default.workspaceThreeBtn = W3.Text;
-            //Settings.Default.workspaceFourBtn = W4.Text;
-            //Settings.Default.workspaceFiveBtn = W5.Text;
-
-            //Settings.Default.W1SelectedAppName = W1SelectedApplicationName.Content.ToString();
-            //Settings.Default.W1SelectedFileName = "test_file.html";
+            Settings.Default.workspaceOneBtn = W1NameTextBox.Text;
+            Settings.Default.workspaceTwoBtn = W2NameTextBox.Text;
+            Settings.Default.workspaceThreeBtn = W3NameTextBox.Text;
+            Settings.Default.workspaceFourBtn = W4NameTextBox.Text;
+            Settings.Default.workspaceFiveBtn = W5NameTextBox.Text;
 
             // Save the changes to persist them
             Settings.Default.Save();
 
+            //Serialization
             Settings.Default.W1WorkspaceItemsJsonString =
-                settingsHelper.SerializeItemCollectionToJson(W1ListBox.Items);
+                _settingsHelper.SerializeItemCollectionToJson(W1ListBox.Items);
             Debug.WriteLine("W1WorkspaceItemsJsonString: ");
             Debug.WriteLine(Settings.Default.W1WorkspaceItemsJsonString);
+
             Settings.Default.W2WorkspaceItemsJsonString =
-                settingsHelper.SerializeItemCollectionToJson(W2ListBox.Items);
+                _settingsHelper.SerializeItemCollectionToJson(W2ListBox.Items);
             Debug.WriteLine("W2WorkspaceItemsJsonString: ");
             Debug.WriteLine(Settings.Default.W2WorkspaceItemsJsonString);
 
+            Settings.Default.W3WorkspaceItemsJsonString =
+                _settingsHelper.SerializeItemCollectionToJson(W3ListBox.Items);
+            Debug.WriteLine("W3WorkspaceItemsJsonString: ");
+            Debug.WriteLine(Settings.Default.W3WorkspaceItemsJsonString);
+
+            Settings.Default.W4WorkspaceItemsJsonString =
+                _settingsHelper.SerializeItemCollectionToJson(W4ListBox.Items);
+            Debug.WriteLine("W4WorkspaceItemsJsonString: ");
+            Debug.WriteLine(Settings.Default.W4WorkspaceItemsJsonString);
+
+            Settings.Default.W5WorkspaceItemsJsonString =
+                _settingsHelper.SerializeItemCollectionToJson(W5ListBox.Items);
+            Debug.WriteLine("W5WorkspaceItemsJsonString: ");
+            Debug.WriteLine(Settings.Default.W5WorkspaceItemsJsonString);
+
+            //Batch file creation
             BatchFileCreator w1BatchFileCreator = new BatchFileCreator("W1", W1ListBox.Items);
             BatchFileCreator w2BatchFileCreator = new BatchFileCreator("W2", W2ListBox.Items);
-
+            BatchFileCreator w3BatchFileCreator = new BatchFileCreator("W3", W3ListBox.Items);
+            BatchFileCreator w4BatchFileCreator = new BatchFileCreator("W4", W4ListBox.Items);
+            BatchFileCreator w5BatchFileCreator = new BatchFileCreator("W5", W5ListBox.Items);
 
             this.Close();
         }
