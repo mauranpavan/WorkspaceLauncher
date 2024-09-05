@@ -5,18 +5,24 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using WorkspaceUI.Models;
 
 namespace WorkspaceUI
 {
     internal class BatchFileCreator
     {
-        public BatchFileCreator() { }
+        public BatchFileCreator()
+        {
+        }
 
-        public BatchFileCreator(string fileName) { }
-        public BatchFileCreator(string workspaceId, string selectedApplicationPath, string selectedFilePath) 
+        public BatchFileCreator(string fileName)
+        {
+        }
+
+        public BatchFileCreator(string workspaceId, ItemCollection listboxItems)
         {
             Debug.WriteLine("Starting Batch File Creation");
-
             try
             {
                 string outputFileName = $@"{workspaceId}-workflow.bat";
@@ -26,7 +32,7 @@ namespace WorkspaceUI
                 //string openLinkPrefixCMD = "start \"\" ";
                 //List<string> allFilesList = new List<string>();
 
-                string openLinkPrefixCMD = "start \"\" ";
+                string openLinkPrefixCmd = "start \"\" ";
 
                 //Part 1
                 // Get the path to the Application Data folder
@@ -49,8 +55,7 @@ namespace WorkspaceUI
                     Debug.WriteLine($"Subfolder '{subfolderName}' already exists in the Application Data folder.");
                 }
 
-
-                //Part 3
+                //Part 2
                 //Open the output file in write mode
                 Debug.WriteLine("Writing to output file");
                 string outputFilePath = Path.Combine(subfolderPath, outputFileName);
@@ -62,30 +67,35 @@ namespace WorkspaceUI
                     Debug.WriteLine($"Existing file '{outputFilePath}' deleted.");
                 }
 
+                //Part3
+
                 using (StreamWriter outputFile = new StreamWriter(outputFilePath, true, Encoding.UTF8))
-                //using (StreamWriter outputFile = new StreamWriter(Path.Combine(appDataPath, subfolderName)))
+                    //using (StreamWriter outputFile = new StreamWriter(Path.Combine(appDataPath, subfolderName)))
                 {
-                    // Write the list of files to the text file
                     outputFile.WriteLine("@echo off");
                     Debug.WriteLine($"Sample file '{outputFilePath}' created in the subfolder.");
+                    foreach (WorkspaceItem? item in listboxItems)
+                    {
+                        string? selectedApplicationPath = item?.ApplicationPath;
+                        string? selectedFilePath = item?.FilePath;
 
-                    outputFile.WriteLine(openLinkPrefixCMD + "\"" + selectedApplicationPath + "\" "  +"\"" + selectedFilePath + "\"" + "\n");
+                        // Write the list of files to the text file
+
+                        outputFile.WriteLine(openLinkPrefixCmd + "\"" + selectedApplicationPath + "\" " + "\"" +
+                                             selectedFilePath + "\"" + "\n");
+                    }
                     outputFile.WriteLine("exit");
                 }
 
                 Debug.WriteLine($"File list has been written to {outputFileName}");
-
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Debug.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine(e);
+                throw;
             }
-
-
-
-
-
         }
+
 
         public string QuickOpen(string dirName, string folderName)
         {
@@ -95,8 +105,8 @@ namespace WorkspaceUI
             string outputFileName = $@"{dirName}-workflow.bat";
 
             string directoryPath = $@"G:\My Drive\{dirName}\{folderName}";
-            string openNewChromePrefixCMD = "start chrome /new-window ";
-            string openLinkPrefixCMD = "start \"\" ";
+            string openNewChromePrefixCmd = "start chrome /new-window ";
+            string openLinkPrefixCmd = "start \"\" ";
             bool startFlag = true;
             List<string> allFilesList = new List<string>();
             //application data folder
@@ -122,13 +132,13 @@ namespace WorkspaceUI
                 {
                     Debug.WriteLine($"Subfolder '{subfolderName}' already exists in the Application Data folder.");
                 }
-
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error: {ex.Message}");
                 return String.Empty;
             }
+
             return "g";
         }
     }
