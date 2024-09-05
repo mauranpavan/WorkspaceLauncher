@@ -41,5 +41,14 @@
     <Setting Name="W2SelectedAppPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">W2 App Path</Value>
     </Setting>
+    <Setting Name="W1StringPairsJson" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="W1WorkspaceItemsJsonString" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="W2WorkspaceItemsJsonString" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

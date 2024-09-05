@@ -178,5 +178,40 @@ namespace WorkspaceUI {
                 this["W2SelectedAppPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection W1StringPairsJson {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["W1StringPairsJson"]));
+            }
+            set {
+                this["W1StringPairsJson"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string W1WorkspaceItemsJsonString {
+            get {
+                return ((string)(this["W1WorkspaceItemsJsonString"]));
+            }
+            set {
+                this["W1WorkspaceItemsJsonString"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string W2WorkspaceItemsJsonString {
+            get {
+                return ((string)(this["W2WorkspaceItemsJsonString"]));
+            }
+            set {
+                this["W2WorkspaceItemsJsonString"] = value;
+            }
+        }
     }
 }
