@@ -65,6 +65,7 @@ namespace WorkspaceUI.UserControls
                 W3NameTextBox.Text = Settings.Default.workspaceThreeBtn;
                 W4NameTextBox.Text = Settings.Default.workspaceFourBtn;
                 W5NameTextBox.Text = Settings.Default.workspaceFiveBtn;
+                SelectStartupCheckbox.IsChecked = Settings.Default.SelectStartupCheckboxValue;
 
                 //Retrieve stored application settings: populate listbox with workspace items
                 if (_workspace1ViewModel != null)
@@ -455,6 +456,49 @@ namespace WorkspaceUI.UserControls
         private void cancelBtn_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void SelectStartupCheckbox_OnChecked(object sender, RoutedEventArgs e)
+        {
+            if (SelectStartupCheckbox.IsChecked == true)
+            {
+                Debug.WriteLine("CheckBox is checked");
+                Settings.Default.SelectStartupCheckboxValue = true;
+                UpdateApplicationToStartup(true);
+            }
+            else if (SelectStartupCheckbox.IsChecked == false)
+            {
+                Debug.WriteLine("CheckBox is unchecked when it is suppose to be checked");
+            }
+            else
+            {
+                Debug.WriteLine("CheckBox state is indeterminate");
+            }
+        }
+
+        private void SelectStartupCheckbox_OnUnchecked(object sender, RoutedEventArgs e)
+        {
+
+            if (SelectStartupCheckbox.IsChecked == false)
+            {
+                Debug.WriteLine("CheckBox is unchecked");
+                Settings.Default.SelectStartupCheckboxValue = false;
+                UpdateApplicationToStartup(false);
+            }
+            else if (SelectStartupCheckbox.IsChecked == true)
+            {
+                Debug.WriteLine("CheckBox is checked when it is suppose to be unchecked");
+            }
+            else
+            {
+                Debug.WriteLine("CheckBox state is indeterminate");
+            }
+        }
+
+        private void UpdateApplicationToStartup(bool flagCheckbox)
+        {
+            var startupManager = new StartupManager();
+            startupManager.EnableStartup(flagCheckbox);
         }
     }
 }
