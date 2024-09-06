@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace WorkspaceUI.Models
+namespace WorkspaceLauncher.Models
 {
     internal class WorkspaceItem
     {

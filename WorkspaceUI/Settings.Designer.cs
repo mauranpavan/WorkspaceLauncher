@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WorkspaceUI {
+namespace WorkspaceLauncher {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

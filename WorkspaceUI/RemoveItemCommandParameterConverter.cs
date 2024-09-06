@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
-using WorkspaceUI.Models;
+using WorkspaceLauncher.Models;
 
-namespace WorkspaceUI
+namespace WorkspaceLauncher
 {
     internal class RemoveItemCommandParameterConverter : IMultiValueConverter
     {

@@ -1,12 +1,11 @@
 ﻿<Window
-    x:Class="WorkspaceUI.UserControls.ActionConfigWindow"
+    x:Class="WorkspaceLauncher.UserControls.ActionConfigWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:WorkspaceUI.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModels="clr-namespace:WorkspaceUI.ViewModels"
-    xmlns:workspaceUi="clr-namespace:WorkspaceUI"
+    xmlns:viewModels="clr-namespace:WorkspaceLauncher.ViewModels"
+    xmlns:workspaceLauncher="clr-namespace:WorkspaceLauncher"
     Title="Workspace Configuration"
     Width="1000"
     Height="850"
@@ -15,8 +14,8 @@
         <viewModels:WorkspaceItemViewModel />
     </Window.DataContext>
     <Window.Resources>
-        <workspaceUi:RemoveItemCommandParameterConverter x:Key="RemoveItemCommandParameterConverter" />
-        <workspaceUi:EmptyStringToPlaceholderConverter x:Key="EmptyStringToPlaceholderConverter" />
+        <workspaceLauncher:RemoveItemCommandParameterConverter x:Key="RemoveItemCommandParameterConverter" />
+        <workspaceLauncher:EmptyStringToPlaceholderConverter x:Key="EmptyStringToPlaceholderConverter" />
     </Window.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <StackPanel Name="Hg" Background="black">

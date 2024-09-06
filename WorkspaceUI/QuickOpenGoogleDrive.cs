@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace WorkspaceUI
+namespace WorkspaceLauncher
 {
-using System;
-using System.IO;
-using System.Collections.Generic;
-    using System.Diagnostics;
-
     public class QuickOpenGoogleDrive
     {
         public QuickOpenGoogleDrive() { }

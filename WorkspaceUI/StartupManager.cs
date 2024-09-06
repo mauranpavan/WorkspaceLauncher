@@ -1,10 +1,9 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Windows;
+using Microsoft.Win32;
 
-
-namespace WorkspaceUI
+namespace WorkspaceLauncher
 {
     internal class StartupManager
     {

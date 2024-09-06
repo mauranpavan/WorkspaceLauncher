@@ -1,25 +1,14 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System;
-using System.IO;
-using WorkspaceUI.ViewModels;
-using System.Collections.Specialized;
-using WorkspaceUI.Models;
-using System.Collections.ObjectModel;
+using Microsoft.Win32;
+using WorkspaceLauncher.Models;
+using WorkspaceLauncher.ViewModels;
 
-namespace WorkspaceUI.UserControls
+namespace WorkspaceLauncher.UserControls
 {
     /// <summary>
     /// Interaction logic for ActionConfigWindow.xaml

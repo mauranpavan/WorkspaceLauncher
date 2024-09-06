@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
-using WorkspaceUI.Models;
+using WorkspaceLauncher.Models;
 
-namespace WorkspaceUI
+namespace WorkspaceLauncher
 {
     internal class BatchFileCreator
     {
