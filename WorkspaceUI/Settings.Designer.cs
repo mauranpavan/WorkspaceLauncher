@@ -382,5 +382,17 @@ namespace WorkspaceUI {
                 this["W5SelectedFilePath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SelectStartupCheckboxValue {
+            get {
+                return ((bool)(this["SelectStartupCheckboxValue"]));
+            }
+            set {
+                this["SelectStartupCheckboxValue"] = value;
+            }
+        }
     }
 }

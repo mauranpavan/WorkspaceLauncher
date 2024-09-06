@@ -4,10 +4,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:WorkspaceUI"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
     StartupUri="MainWindow.xaml">
     <Application.Resources>
         <SolidColorBrush x:Key="Primary">#FF62C6E8</SolidColorBrush>
+        <SolidColorBrush x:Key="Secondary">LightGreen</SolidColorBrush>
+        <SolidColorBrush x:Key="Tertiary">Yellow</SolidColorBrush>
         <FontFamily x:Key="PrimaryFontFamily">Segoe UI Light</FontFamily>
         <sys:Double x:Key="PrimaryFontSize">30</sys:Double>
+        <!--  Application Brand Name  -->
+        <system:String x:Key="AppBrandName">WorkspaceLauncher</system:String>
     </Application.Resources>
 </Application>

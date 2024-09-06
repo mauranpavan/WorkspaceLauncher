@@ -92,5 +92,8 @@
     <Setting Name="W5SelectedFilePath" Type="System.String" Scope="User">
       <Value Profile="(Default)">W5 File Path</Value>
     </Setting>
+    <Setting Name="SelectStartupCheckboxValue" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
