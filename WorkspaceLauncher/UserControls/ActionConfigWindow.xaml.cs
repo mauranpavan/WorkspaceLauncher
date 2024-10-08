@@ -57,6 +57,11 @@ namespace WorkspaceLauncher.UserControls
                 SelectStartupCheckbox.IsChecked = Settings.Default.SelectStartupCheckboxValue;
 
                 //Retrieve stored application settings: populate listbox with workspace items
+                Debug.WriteLine("Initializing - Loading workspace items to workspaces");
+                Debug.WriteLine("Workspace 1 workspace items");
+                Debug.WriteLine(_workspace1ViewModel.WorkspaceItems);
+                Debug.WriteLine("Settings.Default.W1WorkspaceItemsJsonString");
+                Debug.WriteLine(Settings.Default.W1WorkspaceItemsJsonString);
                 if (_workspace1ViewModel != null)
                     _workspace1ViewModel.AddAllItems(_workspace1ViewModel.WorkspaceItems,
                         _settingsHelper.DeserializeJsonToList(Settings.Default.W1WorkspaceItemsJsonString));

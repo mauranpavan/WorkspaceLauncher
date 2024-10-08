@@ -12,11 +12,13 @@ namespace WorkspaceLauncher
     /// </summary>
     public partial class MainWindow : Window
     {
+        private static readonly string? ApplicationName = Application.Current.Resources["AppBrandName"] as string;
+
         // Get the path to the Application Data folder
-        public string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        private readonly string _appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
         // Specify the subfolder name
-        public string subfolderName = "WorkspaceLauncher";
+        private readonly string? _subfolderName = ApplicationName;
 
         public MainWindow()
         {
@@ -60,34 +62,42 @@ namespace WorkspaceLauncher
 
         private void workspaceOneBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (_subfolderName == null)
+            {
+                Debug.WriteLine("Subfolder name is null.");
+                return; 
+            }
+
             try
             {
                 Debug.WriteLine("=== WorkspaceOneBtn Pressed");
                 // Combine the paths to create the full path to the subfolder
-                string subfolderPath = Path.Combine(appDataPath, subfolderName);
+            
+                string subfolderPath = Path.Combine(_appDataPath, _subfolderName);
 
-                string outputFileName = "W1-workflow.bat";
+                    string outputFileName = "W1-workflow.bat";
 
-                Debug.WriteLine("=== outputFileName: " + outputFileName);
-                string outputFilePath = Path.Combine(subfolderPath, outputFileName);
+                    Debug.WriteLine("=== outputFileName: " + outputFileName);
+                    string outputFilePath = Path.Combine(subfolderPath, outputFileName);
 
-                Debug.WriteLine($"=== outputFilePath: {outputFilePath}");
-                string batchFilePath = outputFilePath;
+                    Debug.WriteLine($"=== outputFilePath: {outputFilePath}");
+                    string batchFilePath = outputFilePath;
 
-                // Create a new process to run the batch file
-                Process process = new Process();
-                ProcessStartInfo startInfo = new ProcessStartInfo
-                {
-                    FileName = "cmd.exe", // Run the batch file via the command prompt
-                    Arguments = $"/C {batchFilePath}", // /C carries out the command specified and then terminates
-                    RedirectStandardOutput = false,
-                    UseShellExecute = false,
-                    CreateNoWindow = true
-                };
-                process.StartInfo = startInfo;
-                process.Start();
+                    // Create a new process to run the batch file
+                    Process process = new Process();
+                    ProcessStartInfo startInfo = new ProcessStartInfo
+                    {
+                        FileName = "cmd.exe", // Run the batch file via the command prompt
+                        Arguments = $"/C {batchFilePath}", // /C carries out the command specified and then terminates
+                        RedirectStandardOutput = false,
+                        UseShellExecute = false,
+                        CreateNoWindow = true
+                    };
+                    process.StartInfo = startInfo;
+                    process.Start();
 
-                process.WaitForExit();
+                    process.WaitForExit();
+                
             }
             catch (Exception ex)
             {
@@ -99,10 +109,16 @@ namespace WorkspaceLauncher
 
         private void workspaceTwoBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (_subfolderName == null)
+            {
+                Debug.WriteLine("Subfolder name is null.");
+                return;
+            }
+
             try
             {
                 Debug.WriteLine("=== WorkspaceTwoBtn Pressed");
-                string subfolderPath = Path.Combine(appDataPath, subfolderName);
+                string subfolderPath = Path.Combine(_appDataPath, _subfolderName);
                 string outputFileName = "W2-workflow.bat";
 
                 Debug.WriteLine("=== outputFileName: " + outputFileName);
@@ -133,10 +149,16 @@ namespace WorkspaceLauncher
 
         private void workspaceThreeBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (_subfolderName == null)
+            {
+                Debug.WriteLine("Subfolder name is null.");
+                return;
+            }
+
             try
             {
                 Debug.WriteLine("=== WorkspaceThreeBtn Pressed");
-                string subfolderPath = Path.Combine(appDataPath, subfolderName);
+                string subfolderPath = Path.Combine(_appDataPath, _subfolderName);
                 string outputFileName = "W3-workflow.bat";
 
                 Debug.WriteLine("=== outputFileName: " + outputFileName);
@@ -168,10 +190,16 @@ namespace WorkspaceLauncher
 
         private void workspaceFourBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (_subfolderName == null)
+            {
+                Debug.WriteLine("Subfolder name is null.");
+                return;
+            }
+
             try
             {
                 Debug.WriteLine("=== WorkspaceFourBtn Pressed");
-                string subfolderPath = Path.Combine(appDataPath, subfolderName);
+                string subfolderPath = Path.Combine(_appDataPath, _subfolderName);
                 string outputFileName = "W4-workflow.bat";
 
                 Debug.WriteLine("=== outputFileName: " + outputFileName);
@@ -203,10 +231,16 @@ namespace WorkspaceLauncher
 
         private void workspaceFiveBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (_subfolderName == null)
+            {
+                Debug.WriteLine("Subfolder name is null.");
+                return;
+            }
+
             try
             {
                 Debug.WriteLine("=== WorkspaceFiveBtn Pressed");
-                string subfolderPath = Path.Combine(appDataPath, subfolderName);
+                string subfolderPath = Path.Combine(_appDataPath, _subfolderName);
                 string outputFileName = "W5-workflow.bat";
 
                 Debug.WriteLine("=== outputFileName: " + outputFileName);
@@ -258,9 +292,14 @@ namespace WorkspaceLauncher
 
         private void workspaceSixBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (_subfolderName == null)
+            {
+                Debug.WriteLine("Subfolder name is null.");
+                return;
+            }
             try
             {
-                string subfolderPath = Path.Combine(appDataPath, subfolderName);
+                string subfolderPath = Path.Combine(_appDataPath, _subfolderName);
 
                 QuickOpenGoogleDrive quickOpenGoogleDrive = new QuickOpenGoogleDrive();
                 string outputFilePath = quickOpenGoogleDrive.QuickOpen($@"{this.WorkspaceFourBtn.Content.ToString()}", "Lecture");
@@ -284,7 +323,7 @@ namespace WorkspaceLauncher
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error-workspaceFourBtn_Click: {ex.Message}");
+                MessageBox.Show($"Error-workspaceSixBtn_Click: {ex.Message}");
             }
         }
 

@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkspaceLauncher", "WorkspaceUI\WorkspaceLauncher.csproj", "{F7B8E9B3-24C7-4719-B53B-EB23224AB695}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkspaceLauncher", "WorkspaceLauncher\WorkspaceLauncher.csproj", "{8368ECDA-AF11-494D-8DD5-FDA36BB1FB70}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "WorkspaceLauncherInstaller", "WorkspaceLauncherInstaller\WorkspaceLauncherInstaller.vdproj", "{DA99D9AC-A5FD-4AC2-BE18-9C3C3DE98120}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,12 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F7B8E9B3-24C7-4719-B53B-EB23224AB695}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F7B8E9B3-24C7-4719-B53B-EB23224AB695}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F7B8E9B3-24C7-4719-B53B-EB23224AB695}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F7B8E9B3-24C7-4719-B53B-EB23224AB695}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8368ECDA-AF11-494D-8DD5-FDA36BB1FB70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8368ECDA-AF11-494D-8DD5-FDA36BB1FB70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8368ECDA-AF11-494D-8DD5-FDA36BB1FB70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8368ECDA-AF11-494D-8DD5-FDA36BB1FB70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA99D9AC-A5FD-4AC2-BE18-9C3C3DE98120}.Debug|Any CPU.ActiveCfg = Debug
+		{DA99D9AC-A5FD-4AC2-BE18-9C3C3DE98120}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
