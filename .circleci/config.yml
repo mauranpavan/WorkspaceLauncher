@@ -3,14 +3,15 @@
 version: 2.1
 
 executors:
-  linux-executor:
-    docker:
-      - image: mcr.microsoft.com/dotnet/sdk:6.0 
+  windows-executor:
+    machine:
+      image: windows-server-2022
 
 # Define a job to be invoked later in a workflow.
 jobs:
   build:
-    executor: linux-executor
+    executor: windows-executor
+    
     # Add steps to the job
     # See: https://circleci.com/docs/jobs-steps/#steps-overview & https://circleci.com/docs/configuration-reference/#steps
     steps:
