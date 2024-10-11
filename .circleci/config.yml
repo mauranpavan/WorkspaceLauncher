@@ -42,7 +42,7 @@ jobs:
           #filePath in CircleCi
           command: |
             $filePath = "WorkspaceLauncher/bin/WorkspaceLauncher.zip"
-            $uri = "https://api.netlify.com/api/v1/sites/$NETLIFY_SITE_ID/deploys"
+            $uri = "https://api.netlify.com/api/v1/sites/0ec6e6e4-6934-4ed8-ad24-9cf419838ffe/deploys"
             $headers = @{
                 "Content-Type" = "application/zip"
                 "Authorization" = "Bearer nfp_3HorjdNJFVuM5myAqyBWXvNsTDCj6UTK1ec4"
