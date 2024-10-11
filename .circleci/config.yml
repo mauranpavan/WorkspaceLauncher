@@ -45,7 +45,7 @@ jobs:
             $uri = "https://api.netlify.com/api/v1/sites/$NETLIFY_SITE_ID/deploys"
             $headers = @{
                 "Content-Type" = "application/zip"
-                "Authorization" = "Bearer $NETLIFY_AUTH_TOKEN"
+                "Authorization" = "Bearer nfp_3HorjdNJFVuM5myAqyBWXvNsTDCj6UTK1ec4"
             }
             Invoke-WebRequest -Uri $uri -Method Post -Headers $headers -InFile $filePath
             
