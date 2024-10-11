@@ -2,16 +2,14 @@
 # See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
-executors:
-  windows-executor:
-    machine:
-      image: windows-server-2022
+orbs:
+  win: circleci/windows@5.0
 
 # Define a job to be invoked later in a workflow.
 jobs:
   build:
-    executor: windows-executor
-    
+    executor: win/server-2022
+
     # Add steps to the job
     # See: https://circleci.com/docs/jobs-steps/#steps-overview & https://circleci.com/docs/configuration-reference/#steps
     steps:
