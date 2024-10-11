@@ -63,23 +63,20 @@ jobs:
       - run:
           name: Deploy to Netlify
           #filePath in CircleCi
+          # command: |
+          #   $filePath = "WorkspaceLauncher/bin/WorkspaceLauncher.zip"
+          #   $uri = "https://api.netlify.com/api/v1/sites/${NETLIFY_SITE_ID}/deploys"
+          #   $headers = @{
+          #       "Content-Type" = "application/zip"
+          #       "Authorization" = "Bearer ${NETLIFY_AUTH_TOKEN}"
+          #   }
+          #   Invoke-WebRequest -Uri $uri -Method Post -Headers $headers -InFile $filePath
+          # shell: powershell.exe
           command: |
-            $filePath = "WorkspaceLauncher/bin/WorkspaceLauncher.zip"
-            $uri = "https://api.netlify.com/api/v1/sites/${NETLIFY_SITE_ID}/deploys"
-            $headers = @{
-                "Content-Type" = "application/zip"
-                "Authorization" = "Bearer ${NETLIFY_AUTH_TOKEN}"
-            }
-            Invoke-WebRequest -Uri $uri -Method Post -Headers $headers -InFile $filePath
-          shell: powershell.exe
-      # Deploy the zip file to Netlify
-      # - run:
-      #   name: Deploy to Netlify
-      #   command: |
-      #     filePath="WorkspaceLauncher/bin/WorkspaceLauncher.zip"
-      #     uri="https://api.netlify.com/api/v1/sites/${NETLIFY_SITE_ID}/deploys"
-      #     curl -X POST -H "Content-Type: application/zip" -H "Authorization: Bearer ${NETLIFY_AUTH_TOKEN}" --data-binary "@$filePath" $uri
-      #   shell: bash.exe
+            filePath="WorkspaceLauncher/bin/WorkspaceLauncher.zip"
+            uri="https://api.netlify.com/api/v1/sites/${NETLIFY_SITE_ID}/deploys"
+            curl -X POST -H "Content-Type: application/zip" -H "Authorization: Bearer ${NETLIFY_AUTH_TOKEN}" --data-binary "@$filePath" $uri
+          shell: bash.exe
      
 workflows:
   version: 2
