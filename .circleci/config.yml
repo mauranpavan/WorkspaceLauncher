@@ -20,6 +20,7 @@ jobs:
           name: Use Environment Variables
           command: |
             echo 'export NETLIFY_AUTH_TOKEN="$NETLIFY_AUTH_TOKEN"' >> "$BASH_ENV"
+          shell: bash.exe
       
       # testing
       - run:
@@ -30,6 +31,7 @@ jobs:
             echo ${NETLIFY_SITE_ID}
             echo ${MY_ENV_VAR}
             echo "done variable test"
+          shell: bash.exe
 
       # echo 'export NETLIFY_SITE_ID="$NETLIFY_SITE_ID"' >> "$BASH_ENV"
       # # Restore NuGet packages
