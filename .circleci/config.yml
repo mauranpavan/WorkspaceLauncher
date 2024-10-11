@@ -14,27 +14,6 @@ jobs:
     # See: https://circleci.com/docs/jobs-steps/#steps-overview & https://circleci.com/docs/configuration-reference/#steps
     steps:
       - checkout
-      
-      # Restore NuGet packages
-      - run:
-          name: Restore NuGet Packages
-          command: dotnet restore WorkspaceLauncher.sln
-
-      # Build the project in Release mode
-      - run:
-          name: Build Solution
-          command: dotnet build WorkspaceLauncher.sln --configuration Release
-
-      # Publish using ClickOnce (with MSBuild)
-      - run:
-          name: Publish ClickOnce
-          command: |
-            msbuild WorkspaceLauncher/WorkspaceLauncher.csproj /target:publish /p:Configuration=Release /p:PublishDir=bin\Publish
-
-      # Zip the Publish folder and rename it to WorkspaceLauncher.zip
-      - run:
-          name: Zip the Publish folder and rename
-          command: powershell Compress-Archive -Path WorkspaceLauncher/bin/Publish/* -DestinationPath WorkspaceLauncher/bin/WorkspaceLauncher.zip
 
       # Use the environment variables
       - run:
@@ -47,13 +26,36 @@ jobs:
       - run:
           name: variable test
           command: |
-            echo "$NETLIFY_AUTH_TOKEN"
-            echo "$NETLIFY_SITE_ID"
-            echo "${NETLIFY_AUTH_TOKEN}"
-            echo "${NETLIFY_SITE_ID}"
+            echo "1: $NETLIFY_AUTH_TOKEN"
+            echo "2: $NETLIFY_SITE_ID"
+            echo "3: ${NETLIFY_AUTH_TOKEN}"
+            echo "4: ${NETLIFY_SITE_ID}"
+            echo "5: $BASH_ENV"
 
-      # Deploy the zip file to Netlify
-      - run:
+      
+      # # Restore NuGet packages
+      # - run:
+      #     name: Restore NuGet Packages
+      #     command: dotnet restore WorkspaceLauncher.sln
+
+      # # Build the project in Release mode
+      # - run:
+      #     name: Build Solution
+      #     command: dotnet build WorkspaceLauncher.sln --configuration Release
+
+      # # Publish using ClickOnce (with MSBuild)
+      # - run:
+      #     name: Publish ClickOnce
+      #     command: |
+      #       msbuild WorkspaceLauncher/WorkspaceLauncher.csproj /target:publish /p:Configuration=Release /p:PublishDir=bin\Publish
+
+      # # Zip the Publish folder and rename it to WorkspaceLauncher.zip
+      # - run:
+      #     name: Zip the Publish folder and rename
+      #     command: powershell Compress-Archive -Path WorkspaceLauncher/bin/Publish/* -DestinationPath WorkspaceLauncher/bin/WorkspaceLauncher.zip
+
+      # # Deploy the zip file to Netlify
+      # - run:
           name: Deploy to Netlify
           #filePath in CircleCi
           command: |
