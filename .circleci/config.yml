@@ -40,14 +40,14 @@ jobs:
       - run:
           name: Deploy to Netlify
           #filePath in CircleCi
-        command: |
-          $filePath = "WorkspaceLauncher/bin/WorkspaceLauncher.zip"
-          $uri = "https://api.netlify.com/api/v1/sites/$NETLIFY_SITE_ID/deploys"
-          $headers = @{
-              "Content-Type" = "application/zip"
-              "Authorization" = "Bearer $NETLIFY_AUTH_TOKEN"
-          }
-          Invoke-WebRequest -Uri $uri -Method Post -Headers $headers -InFile $filePath
+          command: |
+            $filePath = "WorkspaceLauncher/bin/WorkspaceLauncher.zip"
+            $uri = "https://api.netlify.com/api/v1/sites/$NETLIFY_SITE_ID/deploys"
+            $headers = @{
+                "Content-Type" = "application/zip"
+                "Authorization" = "Bearer $NETLIFY_AUTH_TOKEN"
+            }
+            Invoke-WebRequest -Uri $uri -Method Post -Headers $headers -InFile $filePath
             
 workflows:
   version: 2
