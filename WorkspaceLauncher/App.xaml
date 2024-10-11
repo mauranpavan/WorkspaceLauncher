@@ -6,7 +6,7 @@
     xmlns:system="clr-namespace:System;assembly=System.Runtime"
     StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <SolidColorBrush x:Key="Primary">#FF62C6E8</SolidColorBrush>
+        <SolidColorBrush x:Key="Primary">#59baeb</SolidColorBrush>
         <SolidColorBrush x:Key="Secondary">LightGreen</SolidColorBrush>
         <SolidColorBrush x:Key="Tertiary">Yellow</SolidColorBrush>
         <FontFamily x:Key="PrimaryFontFamily">Segoe UI Light</FontFamily>
