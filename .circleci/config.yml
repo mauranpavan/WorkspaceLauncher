@@ -40,10 +40,15 @@ jobs:
       - run:
           name: Deploy to Netlify
           command: |
-            curl -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
-                 -F "file=@WorkspaceLauncher/bin/WorkspaceLauncher.zip" \
-                 https://api.netlify.com/api/v1/sites/$NETLIFY_SITE_ID/deploys
+            $uri = "https://api.netlify.com/api/v1/sites/$NETLIFY_SITE_ID/deploys"
+            $filePath = "WorkspaceLauncher/bin/WorkspaceLauncher.zip"
 
+            $headers = @{
+                Authorization = "Bearer $NETLIFY_AUTH_TOKEN"
+            }
+
+            Invoke-WebRequest -Uri $uri -Method Post -Headers $headers -InFile $filePath
+            
 workflows:
   version: 2
   clickonce-deployment:
