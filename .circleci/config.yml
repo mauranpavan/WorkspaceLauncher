@@ -38,10 +38,10 @@ jobs:
 
       # Use the environment variables
       - run:
-        name: Use Environment Variables
-        command: |
-          echo "site ID: $NETLIFY_SITE_ID"
-          echo "auth token: $NETLIFY_AUTH_TOKEN"
+          name: Use Environment Variables
+          command: |
+            echo "site ID: $NETLIFY_SITE_ID"
+            echo "auth token: $NETLIFY_AUTH_TOKEN"
 
       # Deploy the zip file to Netlify
       - run:
