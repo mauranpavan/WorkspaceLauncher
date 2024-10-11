@@ -42,10 +42,15 @@ jobs:
           command: |
             echo 'export NETLIFY_AUTH_TOKEN="$NETLIFY_AUTH_TOKEN"' >> "$BASH_ENV"
             echo 'export NETLIFY_SITE_ID="$NETLIFY_SITE_ID"' >> "$BASH_ENV"
-            echo $NETLIFY_AUTH_TOKEN
-            echo $NETLIFY_SITE_ID
-            echo ${NETLIFY_AUTH_TOKEN}
-            echo ${NETLIFY_SITE_ID}
+            echo "$NETLIFY_AUTH_TOKEN"
+            echo "$NETLIFY_SITE_ID"
+            echo "${NETLIFY_AUTH_TOKEN}"
+            echo "${NETLIFY_SITE_ID}"
+
+      # View the contents of BASH_ENV
+      - run:
+          name: View BASH_ENV Contents
+          command: cat "$BASH_ENV"
 
       # Deploy the zip file to Netlify
       - run:
