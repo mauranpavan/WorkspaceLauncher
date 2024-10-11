@@ -17,19 +17,12 @@ jobs:
 
       # Use the environment variables
       - run:
-          name: Use Environment Variables
+          name: Use the environment variables
           command: |
             echo 'export NETLIFY_AUTH_TOKEN="$NETLIFY_AUTH_TOKEN"' >> "$BASH_ENV"
-          shell: bash.exe
-      
-      # testing
-      - run:
-          name: variable test
-          command: |
-            echo 'export MY_ENV_VAR="FOO"' >> "$BASH_ENV"
+            echo 'export NETLIFY_SITE_ID="$NETLIFY_SITE_ID"' >> "$BASH_ENV"
             echo ${NETLIFY_AUTH_TOKEN}
             echo ${NETLIFY_SITE_ID}
-            echo ${MY_ENV_VAR}
             echo "done variable test"
           shell: bash.exe
 
