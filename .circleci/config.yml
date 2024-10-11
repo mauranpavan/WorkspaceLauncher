@@ -17,11 +17,6 @@ jobs:
 
       # Use the environment variables
       - run:
-          name: "example"
-          command: echo 'export MY_ENV_VAR="FOO"' >> "$BASH_ENV"
-
-      # Use the environment variables
-      - run:
           name: Use Environment Variables
           command: |
             echo 'export NETLIFY_AUTH_TOKEN="$NETLIFY_AUTH_TOKEN"' >> "$BASH_ENV"
@@ -30,6 +25,7 @@ jobs:
       - run:
           name: variable test
           command: |
+            echo 'export MY_ENV_VAR="FOO"' >> "$BASH_ENV"
             echo ${NETLIFY_AUTH_TOKEN}
             echo ${NETLIFY_SITE_ID}
             echo ${MY_ENV_VAR}
