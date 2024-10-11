@@ -26,40 +26,39 @@ jobs:
             echo "done variable test"
           shell: bash.exe
 
-      # echo 'export NETLIFY_SITE_ID="$NETLIFY_SITE_ID"' >> "$BASH_ENV"
-      # # Restore NuGet packages
-      # - run:
-      #     name: Restore NuGet Packages
-      #     command: dotnet restore WorkspaceLauncher.sln
+      # Restore NuGet packages
+      - run:
+          name: Restore NuGet Packages
+          command: dotnet restore WorkspaceLauncher.sln
 
-      # # Build the project in Release mode
-      # - run:
-      #     name: Build Solution
-      #     command: dotnet build WorkspaceLauncher.sln --configuration Release
+      # Build the project in Release mode
+      - run:
+          name: Build Solution
+          command: dotnet build WorkspaceLauncher.sln --configuration Release
 
-      # # Publish using ClickOnce (with MSBuild)
-      # - run:
-      #     name: Publish ClickOnce
-      #     command: |
-      #       msbuild WorkspaceLauncher/WorkspaceLauncher.csproj /target:publish /p:Configuration=Release /p:PublishDir=bin\Publish
+      # Publish using ClickOnce (with MSBuild)
+      - run:
+          name: Publish ClickOnce
+          command: |
+            msbuild WorkspaceLauncher/WorkspaceLauncher.csproj /target:publish /p:Configuration=Release /p:PublishDir=bin\Publish
 
-      # # Zip the Publish folder and rename it to WorkspaceLauncher.zip
-      # - run:
-      #     name: Zip the Publish folder and rename
-      #     command: powershell Compress-Archive -Path WorkspaceLauncher/bin/Publish/* -DestinationPath WorkspaceLauncher/bin/WorkspaceLauncher.zip
+      # Zip the Publish folder and rename it to WorkspaceLauncher.zip
+      - run:
+          name: Zip the Publish folder and rename
+          command: powershell Compress-Archive -Path WorkspaceLauncher/bin/Publish/* -DestinationPath WorkspaceLauncher/bin/WorkspaceLauncher.zip
 
-      # # Deploy the zip file to Netlify
-      # - run:
-      #     name: Deploy to Netlify
-      #     #filePath in CircleCi
-      #     command: |
-      #       $filePath = "WorkspaceLauncher/bin/WorkspaceLauncher.zip"
-      #       $uri = "https://api.netlify.com/api/v1/sites/$NETLIFY_SITE_ID/deploys"
-      #       $headers = @{
-      #           "Content-Type" = "application/zip"
-      #           "Authorization" = "Bearer $NETLIFY_AUTH_TOKEN"
-      #       }
-      #       Invoke-WebRequest -Uri $uri -Method Post -Headers $headers -InFile $filePath
+      # Deploy the zip file to Netlify
+      - run:
+          name: Deploy to Netlify
+          #filePath in CircleCi
+          command: |
+            $filePath = "WorkspaceLauncher/bin/WorkspaceLauncher.zip"
+            $uri = "https://api.netlify.com/api/v1/sites/$NETLIFY_SITE_ID/deploys"
+            $headers = @{
+                "Content-Type" = "application/zip"
+                "Authorization" = "Bearer $NETLIFY_AUTH_TOKEN"
+            }
+            Invoke-WebRequest -Uri $uri -Method Post -Headers $headers -InFile $filePath
             
 workflows:
   version: 2
