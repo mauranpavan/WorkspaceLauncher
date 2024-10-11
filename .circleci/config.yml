@@ -2,14 +2,15 @@
 # See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
-orbs:
-  win: circleci/windows@2.2.0
+executors:
+  linux-executor:
+    docker:
+      - image: mcr.microsoft.com/dotnet/sdk:6.0 
 
 # Define a job to be invoked later in a workflow.
 jobs:
   build:
-    executor:
-      name: win/default
+    executor: linux-executor
     # Add steps to the job
     # See: https://circleci.com/docs/jobs-steps/#steps-overview & https://circleci.com/docs/configuration-reference/#steps
     steps:
