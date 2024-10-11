@@ -36,16 +36,23 @@ jobs:
           name: Zip the Publish folder and rename
           command: powershell Compress-Archive -Path WorkspaceLauncher/bin/Publish/* -DestinationPath WorkspaceLauncher/bin/WorkspaceLauncher.zip
 
+      # Use the environment variables
+      - run:
+        name: Use Environment Variables
+        command: |
+          echo "site ID: $NETLIFY_SITE_ID"
+          echo "auth token: $NETLIFY_AUTH_TOKEN"
+
       # Deploy the zip file to Netlify
       - run:
           name: Deploy to Netlify
           #filePath in CircleCi
           command: |
             $filePath = "WorkspaceLauncher/bin/WorkspaceLauncher.zip"
-            $uri = "https://api.netlify.com/api/v1/sites/0ec6e6e4-6934-4ed8-ad24-9cf419838ffe/deploys"
+            $uri = "https://api.netlify.com/api/v1/sites/$NETLIFY_SITE_ID/deploys"
             $headers = @{
                 "Content-Type" = "application/zip"
-                "Authorization" = "Bearer nfp_3HorjdNJFVuM5myAqyBWXvNsTDCj6UTK1ec4"
+                "Authorization" = "Bearer $NETLIFY_AUTH_TOKEN"
             }
             Invoke-WebRequest -Uri $uri -Method Post -Headers $headers -InFile $filePath
             
