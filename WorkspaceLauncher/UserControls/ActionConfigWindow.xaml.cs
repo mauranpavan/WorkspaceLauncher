@@ -58,7 +58,7 @@ namespace WorkspaceLauncher.UserControls
 
                 //Retrieve stored application settings: populate listbox with workspace items
                 Debug.WriteLine("Initializing - Loading workspace items to workspaces");
-                Debug.WriteLine("Workspace 1 workspace items");
+                //Debug.WriteLine("Workspace 1 workspace items");
                 Debug.WriteLine(_workspace1ViewModel.WorkspaceItems);
                 Debug.WriteLine("Settings.Default.W1WorkspaceItemsJsonString");
                 Debug.WriteLine(Settings.Default.W1WorkspaceItemsJsonString);
@@ -394,6 +394,7 @@ namespace WorkspaceLauncher.UserControls
 
         private void saveBtn_Click(object sender, RoutedEventArgs e)
         {
+            Debug.WriteLine("-->saveBtn_Click");
             //After user makes changes to the TextBoxes, apply these to the main window buttons
             if (_workspaceOneBtn != null) _workspaceOneBtn.Content = W1NameTextBox.Text;
             if (_workspaceTwoBtn != null) _workspaceTwoBtn.Content = W2NameTextBox.Text;
@@ -407,9 +408,6 @@ namespace WorkspaceLauncher.UserControls
             Settings.Default.workspaceThreeBtn = W3NameTextBox.Text;
             Settings.Default.workspaceFourBtn = W4NameTextBox.Text;
             Settings.Default.workspaceFiveBtn = W5NameTextBox.Text;
-
-            // Save the changes to persist them
-            Settings.Default.Save();
 
             //Serialization
             Settings.Default.W1WorkspaceItemsJsonString =
@@ -443,6 +441,9 @@ namespace WorkspaceLauncher.UserControls
             BatchFileCreator w3BatchFileCreator = new BatchFileCreator("W3", W3ListBox.Items);
             BatchFileCreator w4BatchFileCreator = new BatchFileCreator("W4", W4ListBox.Items);
             BatchFileCreator w5BatchFileCreator = new BatchFileCreator("W5", W5ListBox.Items);
+
+            // Save the changes to persist them
+            Settings.Default.Save();
 
             this.Close();
         }
