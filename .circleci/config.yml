@@ -16,13 +16,6 @@ jobs:
     steps:
       - checkout
       
-      # Install .NET SDK
-      - run:
-          name: Install .NET SDK
-          command: |
-            choco install dotnetcore-sdk -y
-            dotnet --version
-
       # Restore NuGet packages
       - run:
           name: Restore NuGet Packages
