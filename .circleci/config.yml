@@ -24,7 +24,7 @@ jobs:
             echo ${NETLIFY_AUTH_TOKEN}
             echo ${NETLIFY_SITE_ID}
             echo "done variable test"
-            echo $NETLIFY_AUTH_TOKEN
+            echo $CIRCLE_PROJECT_REPONAME
             echo $NETLIFY_SITE_ID
           shell: bash.exe
 
