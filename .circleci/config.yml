@@ -35,13 +35,14 @@ jobs:
       # Build the project in Release mode
       - run:
           name: Build Solution
-          command: dotnet build WorkspaceLauncher.sln --configuration Release
+          command: msbuild /p:Configuration=Release /p:Platform="Any CPU" WorkspaceLauncher.sln
 
       # Publish using ClickOnce (with MSBuild)
       - run:
           name: Publish ClickOnce
           command: |
-            msbuild WorkspaceLauncher/WorkspaceLauncher.csproj /target:publish /p:Configuration=Release /p:PublishDir=bin\Publish /p:PublishSingleFile=true /p:ReadyToRun=true /p:RuntimeIdentifier=win-x64
+            msbuild WorkspaceLauncher/WorkspaceLauncher.csproj /target:publish /p:Configuration=Release /p:Platform="Any CPU" /p:PublishDir=bin\Publish /p:PublishSingleFile=true /p:ReadyToRun=true /p:RuntimeIdentifier=win-x86
+
 
       # Zip the Publish folder and rename it to WorkspaceLauncher.zip
       - run:

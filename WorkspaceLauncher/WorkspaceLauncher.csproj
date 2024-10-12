@@ -8,8 +8,6 @@
     <ApplicationIcon>rocket_startup_monitor_screen_computer_icon.ico</ApplicationIcon>
 	<!-- ClickOnce settings -->
 	  <GenerateManifests>true</GenerateManifests>
-	  <PublishSingleFile>true</PublishSingleFile>
-	  <ReadyToRun>true</ReadyToRun>
 	  <PublishURL>bin\Publish</PublishURL>
 	  <Install>true</Install>
 	  <InstallFrom>Web</InstallFrom>
@@ -19,7 +17,9 @@
 	  <UpdateUnit>Days</UpdateUnit>
 	  <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
 	  <BootstrapperEnabled>true</BootstrapperEnabled>
-	   <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+	  <RuntimeIdentifier>win-x86</RuntimeIdentifier>
+	  <PublishSingleFile>true</PublishSingleFile>
+	  <ReadyToRun>true</ReadyToRun>
   </PropertyGroup>
 
   <ItemGroup>
