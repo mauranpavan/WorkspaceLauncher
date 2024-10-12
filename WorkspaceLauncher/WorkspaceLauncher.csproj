@@ -6,7 +6,19 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>rocket_startup_monitor_screen_computer_icon.ico</ApplicationIcon>
-	<EnableWindowsTargeting>true</EnableWindowsTargeting>
+	<!-- ClickOnce settings -->
+	  <GenerateManifests>true</GenerateManifests>
+	  <PublishSingleFile>true</PublishSingleFile>
+	  <ReadyToRun>true</ReadyToRun>
+	  <PublishURL>bin\Publish</PublishURL>
+	  <Install>true</Install>
+	  <InstallFrom>Web</InstallFrom>
+	  <UpdateEnabled>true</UpdateEnabled>
+	  <UpdateMode>Foreground</UpdateMode>
+	  <UpdateInterval>1</UpdateInterval>
+	  <UpdateUnit>Days</UpdateUnit>
+	  <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+	  <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
 
   <ItemGroup>

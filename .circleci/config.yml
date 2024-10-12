@@ -48,17 +48,6 @@ jobs:
           name: Zip the Publish folder and rename
           command: powershell Compress-Archive -Path WorkspaceLauncher/bin/Publish/* -DestinationPath WorkspaceLauncher/bin/WorkspaceLauncher.zip
 
-      # testing
-      - run:
-          name: testing
-          command: |
-            echo ${NETLIFY_AUTH_TOKEN}
-            echo ${NETLIFY_SITE_ID}
-            echo "-------------------"
-            echo $NETLIFY_SITE_ID
-            echo $NETLIFY_AUTH_TOKEN
-          shell: bash.exe
-
       # Deploy the zip file to Netlify
       - run:
           name: Deploy to Netlify
