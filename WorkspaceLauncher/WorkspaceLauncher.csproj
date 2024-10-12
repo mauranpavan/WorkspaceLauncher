@@ -19,6 +19,7 @@
 	  <UpdateUnit>Days</UpdateUnit>
 	  <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
 	  <BootstrapperEnabled>true</BootstrapperEnabled>
+	   <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>

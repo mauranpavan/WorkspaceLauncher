@@ -41,7 +41,8 @@ jobs:
       - run:
           name: Publish ClickOnce
           command: |
-            msbuild WorkspaceLauncher/WorkspaceLauncher.csproj /target:publish /p:Configuration=Release /p:PublishDir=bin\Publish
+            |
+            msbuild WorkspaceLauncher/WorkspaceLauncher.csproj /target:publish /p:Configuration=Release /p:PublishDir=bin\Publish /p:PublishSingleFile=true /p:ReadyToRun=true /p:RuntimeIdentifier=win-x64
 
       # Zip the Publish folder and rename it to WorkspaceLauncher.zip
       - run:
